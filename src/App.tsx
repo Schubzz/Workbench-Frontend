@@ -1,28 +1,26 @@
+import {Route, Routes} from "react-router-dom";
+import Welcome from './pages/Welcome';
+import Register from './pages/Register';
+import Login from './pages/Login';
+import Dashboard from "./pages/Dashboard";
+import Projects from "./pages/Projects";
+import Tasks from "./pages/Tasks";
+import Settings from './pages/Settings';
 import './App.css'
-import Layout from "./components/Layout.tsx";
 
-function App() {
+const App = () => {
+    return (
+        <Routes>
+            <Route path="/" element={<Welcome/>}/>
+            <Route path="/register" element={<Register/>}/>
+            <Route path="/login" element={<Login/>}/>
 
+            <Route path="dashboard" element={<Dashboard/>}/>
+            <Route path="projects" element={<Projects/>}/>
+            <Route path="tasks" element={<Tasks/>}/>
+            <Route path="settings" element={<Settings/>}/>
+        </Routes>
+    );
+};
 
-  return (
-    <>
-        <Layout>
-        <div>
-            <div className="w-5 h-5 bg-accent"></div>
-            <div className="w-5 h-5 bg-body-bg"></div>
-            <div className="w-5 h-5 bg-body-bg-hover"></div>
-            <div className="w-5 h-5 bg-border"></div>
-            <div className="w-5 h-5 bg-text-gray"></div>
-            <div className="w-5 h-5 bg-text-light"></div>
-            <div className="w-5 h-5 bg-transparent"></div>
-            <h2 className="text-small">Hallo!</h2>
-            <h2 className="text-medium">Hallo!</h2>
-            <h2 className="text-large">Hallo!</h2>
-            <h2 className="text-xlarge">Hallo!</h2>
-        </div>
-        </Layout>
-    </>
-  )
-}
-
-export default App
+export default App;
