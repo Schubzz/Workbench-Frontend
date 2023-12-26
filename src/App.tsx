@@ -1,4 +1,5 @@
 import {Route, Routes} from "react-router-dom";
+import {UserProvider} from "./context/contextUser.tsx";
 import Welcome from './pages/Welcome';
 import Register from './pages/Register';
 import Login from './pages/Login';
@@ -10,16 +11,26 @@ import './App.css'
 
 const App = () => {
     return (
-        <Routes>
-            <Route path="/" element={<Welcome/>}/>
-            <Route path="/register" element={<Register/>}/>
-            <Route path="/login" element={<Login/>}/>
-
-            <Route path="dashboard" element={<Dashboard/>}/>
-            <Route path="projects" element={<Projects/>}/>
-            <Route path="tasks" element={<Tasks/>}/>
-            <Route path="settings" element={<Settings/>}/>
-        </Routes>
+        <UserProvider>
+            <Routes>
+                {/* Landing Page */}
+                <Route path="/" element={<Welcome/>}></Route>
+                {/* Login Page */}
+                <Route path="/login" element={<Login/>}></Route>
+                {/* Register Page */}
+                <Route path="/register" element={<Register/>}></Route>
+                {/* Dashboard Page */}
+                <Route path="/dashboard" element={<Dashboard/>}></Route>
+                {/* Projects Page */}
+                <Route path="/dashboard/projects" element={<Projects/>}></Route>
+                {/* Tasks Page */}
+                <Route path="/tasks" element={<Projects/>}></Route>
+                {/* Task in Project Page */}
+                <Route path="dashoard/projects/task" element={<Tasks/>}></Route>
+                {/* Settings Page*/}
+                <Route path="/settings" element={<Settings/>}></Route>
+            </Routes>
+        </UserProvider>
     );
 };
 

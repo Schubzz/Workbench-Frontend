@@ -1,4 +1,4 @@
-const Topbar = () => {
+export default function Topbar({onOpen}: { onOpen: any }) {
     return (
         <div id="topbar"
              className="flex items-center sticky top-0 h-[80px] w-full p-6 gap-4 bg-body-bg border-b border-solid border-border">
@@ -7,6 +7,7 @@ const Topbar = () => {
                  className="flex  items-center gap-8 py-4">
 
                 <button id="open-btn"
+                        onClick={onOpen}
                         className="burger-hover flex lg:hidden flex-col gap-1 p-[.125rem] cursor-pointer">
                     <span className="w-[20px] h-[2px] bg-text-light transition-all duration-200 ease-in-out"></span>
                     <span className="w-[20px] h-[2px] bg-text-light"></span>
@@ -30,5 +31,3 @@ const Topbar = () => {
         </div>
     )
 }
-
-export default Topbar
