@@ -16,6 +16,11 @@
     text-decoration: none;
     border-style: none;
     list-style: none;
+    outline: none;
+}
+
+input {
+    padding-left: .5rem ;
 }
 
 .trans {
