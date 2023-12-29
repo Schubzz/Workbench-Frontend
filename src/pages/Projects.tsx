@@ -1,8 +1,12 @@
 import withLayout from "../HOC/withLayout.tsx";
+import ProjectsList from "../components/ProjectsList.tsx";
 
-const Dashboard = () => {
+const Projects = () => {
     return (
-        <h1>Projects</h1>
+        <>
+            <ProjectsList/>
+        </>
     )
 }
-export default withLayout(Dashboard);
+
+export default withLayout(Projects)

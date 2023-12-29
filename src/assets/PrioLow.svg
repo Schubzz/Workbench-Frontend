@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="100%" height="100%" viewBox="0 0 39 39" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:1.5;">
+    <g transform="matrix(1.33333,0,0,1.33333,-2169.72,-936.602)">
+        <g transform="matrix(0.943291,0,0,0.943291,-66.3038,-130.007)">
+            <g transform="matrix(1,0,0,1,874.411,0)">
+                <g id="not-startet" serif:id="not startet" transform="matrix(1,0,0,1,-240.664,85.66)">
+                    <circle cx="1177" cy="812.181" r="14.277" style="fill:none;stroke:rgb(255,171,0);stroke-opacity:0.25;stroke-width:2.12px;"/>
+                </g>
+                <g id="not-startet1" serif:id="not startet" transform="matrix(0.571431,0,0,0.571431,263.762,433.736)">
+                    <circle cx="1177" cy="812.181" r="14.277" style="fill:none;stroke:rgb(255,171,0);stroke-opacity:0.25;stroke-width:3.71px;"/>
+                </g>
+                <g id="not-startet2" serif:id="not startet" transform="matrix(0.152788,0,0,0.152788,756.504,773.749)">
+                    <circle cx="1177" cy="812.181" r="14.277" style="fill:none;stroke:rgb(255,171,0);stroke-width:13.88px;"/>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

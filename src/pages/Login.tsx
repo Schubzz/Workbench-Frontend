@@ -1,19 +1,19 @@
 import {useState} from "react";
 import { Link } from "react-router-dom";
 import useAxios from "../hooks/useAxios.tsx";
+import { useNavigate } from 'react-router-dom';
+
 
 export default function Login() {
 
     const http = useAxios();
+    const navigate = useNavigate();
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [password_repeat, setPassword_Repeat] = useState('');
 
     const [emailError, setEmailError] = useState(false);
     const [passwordError, setPasswordError] = useState(false);
-    const [password_repeatError, setPassword_RepeatError] = useState(false);
-
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -24,14 +24,23 @@ export default function Login() {
             formData.set('email', email);
             formData.set('password', password);
 
-
             await http.get('/sanctum/csrf-cookie')
+
 
             const response = await http.post(
                 '/api/login',
                 {'email': email, 'password': password},
                 {headers: {'Content-Type': 'application/json'}}
             )
+
+            if (response.status === 204) {
+                // Bei Erfolg zur Dashboard-Seite navigieren
+                navigate('/dashboard');
+                console.log('You are now logged in!')
+            } else {
+                // Fehlerbehandlung, z.B. eine Fehlermeldung anzeigen
+                console.log('Login failed:', response.data.message);
+            }
 
             console.log(response.data)
         }
@@ -46,7 +55,9 @@ export default function Login() {
                 />
                 <form className="space-y-6 w-full max-w-[400px]"
                       action="#"
-                      method="POST">
+                      method="POST"
+                      onSubmit={handleSubmit}
+                >
                     <div>
                         <label htmlFor="email"
                                className="block text-sm md:text-medium font-medium leading-6 text-text-light">
@@ -54,6 +65,7 @@ export default function Login() {
                         </label>
                         <div className="mt-2">
                             <input
+                                onChange={(e) => setEmail(e.target.value)}
                                 id="email"
                                 name="email"
                                 type="email"
@@ -78,6 +90,7 @@ export default function Login() {
                         </div>
                         <div className="mt-2">
                             <input
+                                onChange={(e) => setPassword(e.target.value)}
                                 id="password"
                                 name="password"
                                 type="password"
