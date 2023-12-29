@@ -1,8 +1,9 @@
 import {UserContext} from "../context/contextUser.tsx";
 import {useContext} from "react";
-export default function Sidebar({onClose, isVisible} : {onClose: any, isVisible:boolean}) {
 
-const user = useContext(UserContext);
+export default function Sidebar({onClose, isVisible}: { onClose: any, isVisible: boolean }) {
+
+    const {user, logout} = useContext(UserContext);
 
     return (
         <aside id="sidebar"
@@ -81,14 +82,16 @@ const user = useContext(UserContext);
                     </a>
                 </li>
                 <li className="text-small font-medium transition hover:bg-red-900">
-                    <a href="#" className="flex items-center justify-start h-full w-full gap-2 px-4 py-2">
+                    <button
+                        onClick={logout}
+                        className="flex items-center justify-start h-full w-full gap-2 px-4 py-2">
                         <div className="w-[20px] h-[20px] border custom-border-radius bg-accent">
 
                         </div>
                         <p>
                             Logout
                         </p>
-                    </a>
+                    </button>
                 </li>
             </ul>
 

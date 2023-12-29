@@ -1,14 +1,19 @@
 import {createContext, useEffect, useState} from "react";
 import useAxios from "../hooks/useAxios.tsx";
+import {useNavigate} from "react-router-dom";
 
 export const UserContext = createContext({
-    user : {},
-    setUser: () => {}
+    user: {},
+    setUser: () => {
+    },
+    logout: () => {
+    }
 })
 
-export const UserProvider = ({children} : {children: any}) => {
+export const UserProvider = ({children}: { children: any }) => {
 
     const http = useAxios();
+    const navigate = useNavigate();
 
     const [user, setUser] = useState();
 
@@ -22,6 +27,22 @@ export const UserProvider = ({children} : {children: any}) => {
         }
     }
 
+    // const logout = async () => {
+    //     await http.get('/api/logout')
+    //     setUser(null)
+    // }
+
+    const logout = async () => {
+        try {
+            await http.get('/api/logout');
+            setUser(null);
+            navigate('/login');
+            console.log('You are logged out now!')
+        } catch (error) {
+            console.error('Fehler beim Logout:', error);
+        }
+    };
+
     useEffect(() => {
         getUser()
     }, [])
@@ -29,6 +50,7 @@ export const UserProvider = ({children} : {children: any}) => {
     return (
         <UserContext.Provider value={{
             user: user,
+            logout: logout
         }}>
             {children}
         </UserContext.Provider>
