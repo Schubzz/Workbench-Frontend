@@ -1,3 +1,5 @@
+import Breadcrumbs from "./Breadcrumbs.tsx";
+
 export default function Topbar({onOpen}: { onOpen: any }) {
     return (
         <div id="topbar"
@@ -16,7 +18,7 @@ export default function Topbar({onOpen}: { onOpen: any }) {
 
                 <div id="breadcrumbs">
                     <h3 className="text-accent uppercase tracking-tighter font-extrabold text-small">
-                        Breadcrumb
+                        <Breadcrumbs/>
                     </h3>
                 </div>
 

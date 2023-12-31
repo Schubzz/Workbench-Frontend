@@ -1,7 +1,8 @@
 import Topbar from "./Topbar.tsx";
 import Sidebar from "./Sidebar.tsx";
 import Backdrop from "./Backdrop.tsx";
-import Content from "./Content.tsx"
+import Content from "./Content.tsx";
+import InfoBar from "./InfoBar.tsx";
 import React, {useState} from "react";
 
 interface LayoutProps {
@@ -12,6 +13,10 @@ export default function Layout({children}: LayoutProps) {
 
     const [sidebarVisible, setSidebarVisible] = useState(false);
 
+    // const [infobarVisible, setInfobarVisible] = useState(true);
+    const [activeProject, setActiveProject] = useState(null);
+
+
     const toggleSidebar = () => {
         setSidebarVisible(!sidebarVisible);
         if (sidebarVisible) {
@@ -20,6 +25,7 @@ export default function Layout({children}: LayoutProps) {
             document.body.classList.add('no-scroll');
         }
     };
+
 
     return (
 
@@ -34,7 +40,7 @@ export default function Layout({children}: LayoutProps) {
                          isVisible={sidebarVisible}/>
 
                 <div id="main-content"
-                     className="grow-[9999] basis-[500px] bg-body-bg">
+                     className="grow-[9999] basis-[500px] bg-body-bg relative">
 
                     <Topbar onOpen={toggleSidebar}/>
 
@@ -42,7 +48,10 @@ export default function Layout({children}: LayoutProps) {
                         {children}
                     </Content>
 
+                    <InfoBar/>
+
                 </div>
+
 
             </main>
 

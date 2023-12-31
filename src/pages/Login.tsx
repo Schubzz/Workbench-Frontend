@@ -15,41 +15,63 @@ export default function Login() {
     const [emailError, setEmailError] = useState(false);
     const [passwordError, setPasswordError] = useState(false);
 
+    const [loginError, setLoginError] = useState(false);
+
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
-        if (email && password) {
+        setLoginError(false);
 
-            const formData = new FormData();
-            formData.set('email', email);
-            formData.set('password', password);
+        setEmailError(false);
+        setPasswordError(false);
 
-            await http.get('/sanctum/csrf-cookie')
+        const isEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!email) {
+            setEmailError(true);
+            console.log('Email field required')
+        } else if (!isEmail.test(email)) {
+            setEmailError(true);
+            console.log('not a valid Email')
+        }
+
+        if (!password) {
+            setPasswordError(true);
+            console.log('Password field required')
+        }
+
+        if (!email || !password) {
+            return;
+        }
 
 
+        try {
+            await http.get('/sanctum/csrf-cookie');
             const response = await http.post(
                 '/api/login',
                 {'email': email, 'password': password},
                 {headers: {'Content-Type': 'application/json'}}
-            )
+            );
 
-            if (response.status === 204) {
-                // Bei Erfolg zur Dashboard-Seite navigieren
-                navigate('/dashboard');
-                console.log('You are now logged in!')
+            if (response.status === 200) {
+                navigate('/dashboard')
             } else {
-                // Fehlerbehandlung, z.B. eine Fehlermeldung anzeigen
-                console.log('Login failed:', response.data.message);
+                setLoginError(true);
             }
-
-            console.log(response.data)
+        } catch (error) {
+            if (error.response && error.response.status === 422) {
+                setLoginError(error.response.data.message || 'Login failed');
+            } else {
+                setLoginError(true);
+            }
         }
-    }
+    };
+
+
 
     return (
 
         <div className="w-full h-screen flex flex-col justify-center items-center bg-border p-8 rounded-xl">
-            <img src="/src/assets/Logo-icon.svg"
+            <img src="/Logo.svg"
                  alt="Workbench Logo"
                  className="w-[80px] h-[80px] mx-auto"
             />
@@ -65,14 +87,16 @@ export default function Login() {
                     </label>
                     <div className="mt-2">
                         <input
+                            formNoValidate={true}
                             onChange={(e) => setEmail(e.target.value)}
                             id="email"
                             name="email"
-                            type="email"
+                            type="text" // type="email" sobald auto validate vom Browser ausgeschaltet werden kann
                             placeholder="example@mail.com"
                             autoComplete="email"
                             className="block w-full rounded-md border-0 py-1.5 font-semibold text-body-bg-hover placeholder:text-text-gray focus:ring-2 focus:ring-inset focus:ring-accent text-small"
                         />
+                        {emailError && <p className="text-small text-text-lightfont-bold bg-red-900 text-center rounded">Please enter a valid Email.</p>}
                     </div>
                 </div>
 
@@ -98,16 +122,20 @@ export default function Login() {
                             autoComplete="current-password"
                             className="block w-full rounded-md border-0 py-1.5 font-semibold text-body-bg-hover placeholder:text-text-gray focus:ring-2 focus:ring-inset focus:ring-accent text-small"
                         />
+                        {passwordError && <p className="text-small text-text-lightfont-bold bg-red-900 text-center rounded">Please enter a password.</p>}
                     </div>
                 </div>
 
                 <div>
+                </div>
+                <div>
                     <button
                         type="submit"
-                        className="flex w-full justify-center rounded-md bg-accent px-3 py-1.5 text-sm font-semibold leading-6 text-text-light shadow-sm"
+                        className="flex w-full justify-center rounded-md bg-accent px-3 py-1.5 text-sm font-semibold leading-6 text-text-light shadow-sm hover:text-white"
                     >
                         Sign in
                     </button>
+                    {loginError && <div className="text-small text-text-lightfont-bold bg-red-900 text-center rounded">{loginError}</div>}
                 </div>
                 <div className="flex flex-col justify-center items-center">
                     <h2 className=" text-small">Not registered yet?</h2>

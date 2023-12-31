@@ -1,9 +1,11 @@
 import {UserContext} from "../context/contextUser.tsx";
 import {useContext} from "react";
+import {BASE_URL} from "../baseURL.tsx";
 
-export default function Sidebar({onClose, isVisible}: { onClose: any, isVisible: boolean }) {
+export default function Sidebar({onClose, isVisible}: { onClose: never, isVisible: boolean }) {
 
     const {user, logout} = useContext(UserContext);
+
 
     return (
         <aside id="sidebar"
@@ -16,9 +18,9 @@ export default function Sidebar({onClose, isVisible}: { onClose: any, isVisible:
                     {user?.username}
                 </span>
 
-                {/*{user && <img src={user?.profile_image}*/}
-                {/*              alt="profile-img"*/}
-                {/*              className="w-[50px] h-[50px] border border-solid rounded-full border-border" />}*/}
+                {user && <img src={user?.profile_image}
+                              alt="profile-img"
+                              className="w-[50px] h-[50px] border border-solid rounded-full border-border" />}
                 <button id="close-btn"
                         onClick={onClose}
                         className="close-btn flex flex-col p-[.125rem] cursor-pointer lg:hidden">

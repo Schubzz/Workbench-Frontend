@@ -27,11 +27,6 @@ export const UserProvider = ({children}: { children: any }) => {
         }
     }
 
-    // const logout = async () => {
-    //     await http.get('/api/logout')
-    //     setUser(null)
-    // }
-
     const logout = async () => {
         try {
             await http.get('/api/logout');
