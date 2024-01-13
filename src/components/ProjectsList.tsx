@@ -1,23 +1,33 @@
-import {useEffect} from "react";
+import {useEffect, useState} from "react";
 import React from "react";
 import useAxios from "../hooks/useAxios.tsx";
-import {useProject} from "../context/ProjectContext.tsx";
+import {useNavigate} from 'react-router-dom';
+import {NewProjectModal} from "./NewProjectModal.tsx";
 
-const ProjectsList = () => {
+const ProjectsList = ({callback}) => {
 
-    const { setActiveProject } = useProject();
+    const navigate = useNavigate();
 
-    const handleProjectClick = (project) => {
-        setActiveProject(project); // Setzt das geklickte Projekt als aktives Projekt
+    const [isModalOpen, setIsModalOpen] = useState(false);
+
+    const [projects, setProjects] = React.useState<Project>([]);
+
+
+    const handleInfoButtonClick = (e, project) => {
+        e.stopPropagation(); // Verhindert das Auslösen des Projekt-Div-Click-Events
+       callback(project); // Setzt das geklickte Projekt als aktives Projekt für die InfoBar
     };
 
+    const navigateToProject = (projectId) => {
+        navigate(`/projects/${projectId}`)
+    };
 
 
     interface Project {
         id: number;
         user_id: number;
         attributes: {
-            name: string;
+            title: string;
             priority: string;
             status: string;
             description: string;
@@ -37,11 +47,8 @@ const ProjectsList = () => {
         }
     };
 
-    const [projects, setProjects] = React.useState<Project>([]);
-
     useEffect(() => {
         getProjects().then(({data}) => {
-            // setIsLoading(true);
             console.log(data)
             setProjects(data);
         });
@@ -63,12 +70,19 @@ const ProjectsList = () => {
     return (
 
         <>
+            <button
+                onClick={() => setIsModalOpen(true)}
+                className="bg-accent rounded-md p-2 text-small font-semibold text-text-light"
+            >
+                new Project
+            </button>
+
             {projects.map((project) => (
                 <div
                     key={project.id}
-                    onClick={() => handleProjectClick(project)}
-                >
+                    onClick={() => navigateToProject(project.id)}
 
+                >
                     <div
                         className="project-selector flex flex-row w-full justify-between items-center p-2 border-b border-amber-50 hover:bg-body-bg-hover cursor-pointer rounded-md">
                         <div className="flex items-center gap-3">
@@ -81,7 +95,13 @@ const ProjectsList = () => {
                                 })()
                             }
 
-                            <h2 className="text-small">{project.attributes.name}</h2>
+                            <h2 className="text-small">{project.attributes.title}</h2>
+                            <button
+                                onClick={(e) => handleInfoButtonClick(e, project)}
+                                className="text-small text-accent font-black border border-solid border-accent rounded-full w-4 h-4 flex items-center justify-center hover:bg-border"
+                            >
+                                i
+                            </button>
                         </div>
 
                         <div className=" flex items-center gap-3">
@@ -98,14 +118,20 @@ const ProjectsList = () => {
                             </div>
 
                             <span
-                                className="text-small text-text-gray">{project.attributes.created_at.split("T")[0]}</span>
+                                className="text-small text-text-gray hidden md:flex">{project.attributes.created_at.split("T")[0]}</span>
                         </div>
                     </div>
 
 
+
                 </div>
             ))}
+            <NewProjectModal
+                isOpen={isModalOpen}
+                onClose={() => setIsModalOpen(false)}
+            />
         </>
     )
 }
 export default ProjectsList;
+

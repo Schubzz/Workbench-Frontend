@@ -1,1 +1,1 @@
-export const BASE_URL = "http://localhost:8000/public/storage/";
+export const BASE_URL = "http://localhost:8000/storage/";

@@ -1,16 +1,9 @@
 import { useState, useEffect, useRef} from 'react';
 import { useProject } from '../context/ProjectContext.tsx';
 
-export default function InfoBar() {
-    const { activeProject, setActiveProject } = useProject();
-    const [isVisible, setIsVisible] = useState(false);
-    const infoBarRef = useRef(null);
+export default function InfoBar({activeProject, isVisible, callback}) {
 
-    useEffect(() => {
-        if (activeProject) {
-            setIsVisible(true); // Fährt die InfoBar aus
-        }
-    }, [activeProject]);
+    const infoBarRef = useRef(null);
 
     function isClickInsideProjectSelector(element) {
         return element.closest('.project-selector');
@@ -32,16 +25,11 @@ export default function InfoBar() {
         };
     }, [activeProject]);
 
+
     const handleClose = () => {
-        setIsVisible(false);
-        setTimeout(() => {
-            setActiveProject(null);
-        }, 500);
+        callback();
     };
 
-    if (!activeProject) {
-        return null;
-    }
 
     return (
         <div ref={infoBarRef} className={`fixed top-0 right-[-60%] md:right-[-40%] w-[60%] md:w-[40%] z-20 h-[100dvh]  flex flex-col backdrop-blur-md bg-border/10 border-l border-solid border-border info-bar ${isVisible ? 'open' : ''}`}>
@@ -53,7 +41,7 @@ export default function InfoBar() {
                         <span className="w-[20px] h-[3px] transition bg-accent rotate-45"></span>
                         <span className="w-[20px] h-[3px] transition bg-accent -rotate-45 translate-y-[-3px]"></span>
                     </button>
-                    <h2>Projektname: {activeProject?.attributes.name}</h2>
+                    <h2>Projektname: {activeProject?.attributes.title}</h2>
                     <p>Priorität: {activeProject?.attributes.priority}</p>
                     <p>Status: {activeProject?.attributes.status}</p>
                     <p>Beschreibung: {activeProject?.attributes.description}</p>

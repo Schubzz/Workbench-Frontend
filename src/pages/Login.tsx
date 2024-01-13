@@ -1,7 +1,9 @@
-import {useState} from "react";
+import {useState, useContext} from "react";
 import {Link} from "react-router-dom";
 import useAxios from "../hooks/useAxios.tsx";
 import {useNavigate} from 'react-router-dom';
+import {UserContext} from "../context/contextUser.tsx";
+
 
 
 export default function Login() {
@@ -16,6 +18,8 @@ export default function Login() {
     const [passwordError, setPasswordError] = useState(false);
 
     const [loginError, setLoginError] = useState(false);
+
+    const {getUser} = useContext(UserContext);
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -53,6 +57,7 @@ export default function Login() {
             );
 
             if (response.status === 200) {
+                getUser();
                 navigate('/dashboard')
             } else {
                 setLoginError(true);

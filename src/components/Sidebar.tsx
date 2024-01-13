@@ -1,5 +1,6 @@
 import {UserContext} from "../context/contextUser.tsx";
 import {useContext} from "react";
+import NavLink from "./Navlink.tsx";
 import {BASE_URL} from "../baseURL.tsx";
 
 export default function Sidebar({onClose, isVisible}: { onClose: never, isVisible: boolean }) {
@@ -18,7 +19,7 @@ export default function Sidebar({onClose, isVisible}: { onClose: never, isVisibl
                     {user?.username}
                 </span>
 
-                {user && <img src={user?.profile_image}
+                {user && <img src={`${BASE_URL}${user?.profile_image}`}
                               alt="profile-img"
                               className="w-[50px] h-[50px] border border-solid rounded-full border-border" />}
                 <button id="close-btn"
@@ -30,46 +31,19 @@ export default function Sidebar({onClose, isVisible}: { onClose: never, isVisibl
             </div>
 
             <ul id="navigation">
-                <li className="text-small font-medium transition hover:bg-body-bg-hover">
-                    <a href="#" className="flex items-center justify-start h-full w-full gap-2 px-4 py-2">
-                        <div className="w-[20px] h-[20px] border custom-border-radius bg-accent">
+                {[
+                    { name: 'Dashboard', path: '/dashboard' },
+                    { name: 'Projects', path: '/projects' },
+                    { name: 'Tasks', path: '/tasks' },
+                    { name: 'Statistics', path: '/statistics' }
+                ].map((link, index) => (
+                    <NavLink
+                        key={index}
+                        linkText={link.name}
+                        link={link.path}
 
-                        </div>
-                        <p>
-                            Nav Link 1
-                        </p>
-                    </a>
-                </li>
-                <li className="text-small font-medium transition hover:bg-body-bg-hover">
-                    <a href="#" className="flex items-center justify-start h-full w-full gap-2 px-4 py-2">
-                        <div className="w-[20px] h-[20px] border custom-border-radius bg-accent">
-
-                        </div>
-                        <p>
-                            Nav Link 2
-                        </p>
-                    </a>
-                </li>
-                <li className="text-small font-medium transition hover:bg-body-bg-hover">
-                    <a href="#" className="flex items-center justify-start h-full w-full gap-2 px-4 py-2">
-                        <div className="w-[20px] h-[20px] border custom-border-radius bg-accent">
-
-                        </div>
-                        <p>
-                            Nav Link 3
-                        </p>
-                    </a>
-                </li>
-                <li className="text-small font-medium transition hover:bg-body-bg-hover">
-                    <a href="#" className="flex items-center justify-start h-full w-full gap-2 px-4 py-2">
-                        <div className="w-[20px] h-[20px] border custom-border-radius bg-accent">
-
-                        </div>
-                        <p>
-                            Nav Link 4
-                        </p>
-                    </a>
-                </li>
+                    />
+                ))}
             </ul>
 
             <ul id="bottom-nav" className="mt-auto">

@@ -48,8 +48,6 @@ export default function Layout({children}: LayoutProps) {
                         {children}
                     </Content>
 
-                    <InfoBar/>
-
                 </div>
 
 

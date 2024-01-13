@@ -7,6 +7,8 @@ export const UserContext = createContext({
     setUser: () => {
     },
     logout: () => {
+    },
+    getUser : () => {
     }
 })
 
@@ -45,7 +47,8 @@ export const UserProvider = ({children}: { children: any }) => {
     return (
         <UserContext.Provider value={{
             user: user,
-            logout: logout
+            logout: logout,
+            getUser: getUser
         }}>
             {children}
         </UserContext.Provider>
