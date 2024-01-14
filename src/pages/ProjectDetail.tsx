@@ -1,9 +1,10 @@
 import withLayout from "../HOC/withLayout.tsx";
 import useAxios from "../hooks/useAxios.tsx";
-import { useEffect, useState } from "react";
+import {useEffect, useState} from "react";
 import {useLocation} from "react-router-dom";
 import Project from "../interfaces/ProjectInterface.tsx";
 import Task from "../interfaces/TaskInterface.tsx";
+import {NewTaskModal} from "../components/NewTaskModal.tsx";
 
 
 const ProjectDetail = () => {
@@ -11,8 +12,6 @@ const ProjectDetail = () => {
     const [tasks, setTasks] = useState<Task[]>([]);
 
     const [project, setProject] = useState<Project | null>(null);
-
-
 
     const http = useAxios();
 
@@ -22,12 +21,26 @@ const ProjectDetail = () => {
 
     const id = resolvedPath[1];
 
+    const [isModalOpen, setIsModalOpen] = useState(false);
+
+    const project_id = id;
+
+    const priority = {
+        low: {src: "../../src/assets/PrioLow.svg", alt: "Low Priority"},
+        medium: {src: "../../src/assets/PrioMedium.svg", alt: "Medium Priority"},
+        high: {src: "../../src/assets/PrioHigh.svg", alt: "High Priority"}
+    };
+
+    const status = {
+        "To-Do": {src: "../../src/assets/Open.svg", alt: "to do"},
+        "In Progress": {src: "../../src/assets/inProgress.svg", alt: "in progress"},
+        "Done": {src: "../../src/assets/Done.svg", alt: "done"}
+    };
 
 
     const getProject = async () => {
         try {
             const response = await http.get(`/api/projects/${id}`);
-            console.log(response);
             return response.data;
         } catch (error) {
             console.error('Error fetching projects:', error);
@@ -35,43 +48,106 @@ const ProjectDetail = () => {
         }
     }
 
-    const getTasks = async () => {
-        try {
-            const response = await http.get(`/api/tasks/${id}`);
-            return response.data;
+    const handleTaskAdded = (newTask) => {
+        setTasks(prevTasks => [...prevTasks, newTask]);
+    };
 
+    const deleteTask = async (taskId : number) => {
+        try {
+            await http.delete(`/api/tasks/${taskId}`);
+            setTasks(prevTasks => prevTasks.filter(task => task.id !== taskId));
         } catch (error) {
-            console.error('Error fetching tasks:', error);
-            throw error;
+            console.error('Fehler beim Löschen des Tasks:', error);
         }
     };
 
     useEffect(() => {
-        getProject().then(({ data }) => {
-            setProject(data.attributes);
-            setTasks(data.relationships.tasks)
+        getProject().then((data) => {
+            const tasks = data.data.relationships.tasks;
+            const project = data.data;
+
+            setProject(project);
+            setTasks(tasks);
+
+            console.log(project)
+            console.log(tasks)
         });
-    }, []);
+    }, [tasks.length]);
+
 
     return (
         <>
-            <h2>Project Detail</h2>
-            <p>Project Title: {project?.title}</p>
-            <p>Project desc: {project?.description}</p>
+            <div className="flex flex-col gap-2 bg-border p-4 rounded-md">
+                <h2 className="text-large">{project?.attributes.title}</h2>
+                <p className="text-small text-text-light">Project desc:</p>
+                <p>{project?.attributes.description}</p>
+            </div>
 
-            <h2 className=" py-6">Tasks</h2>
-            <ul>
-                {tasks.map((task) => (
-                    <li key={task.id}>
-                        <h3>{task.attributes.title}</h3>
-                        <p>Priority: {task.attributes.priority}</p>
-                        <p>Status: {task.attributes.status}</p>
-                        <p>Description: {task.attributes.description}</p>
-                        <p> Relate: {task.relationships.user.username}</p>
-                        <p> Relate: {task.relationships.project.id}</p>
-                    </li>
+
+            <div className=" my-4">
+                <h2 className="mt-2 py-2 border-t-2 border-solid border-border">Tasks</h2>
+                <button
+                    onClick={() => setIsModalOpen(true)}
+                    className="bg-accent rounded-md p-2 text-small font-semibold text-text-light my-6"
+                >
+                    +
+                </button>
+                {tasks && tasks.map((task) => (
+                    <div key={task.id} className="task-container">
+                        <details>
+                            <summary>
+                                <li className="flex flex-row w-full justify-between items-center p-2 border-b border-amber-50 hover:bg-body-bg-hover cursor-pointer rounded-md">
+                                    <div className="flex items-center gap-3">
+                                        {
+                                            (() => {
+                                                const key = task.attributes.status as keyof typeof status;
+                                                const {src, alt} = status[key] || {};
+                                                return src && <img src={src} alt={alt} className="w-4 h-4"/>;
+                                            })()
+                                        }
+                                        <h2 className="text-small">{task.attributes.title}</h2>
+                                    </div>
+                                    <div className=" flex items-center gap-3">
+                                        <div className="flex items-center gap-3">
+                                            {
+                                                (() => {
+                                                    const key = task.attributes.priority as keyof typeof priority;
+                                                    const {src, alt} = priority[key] || {};
+                                                    return src && <img src={src} alt={alt} className="w-6 h-6"/>;
+                                                })()
+                                            }
+                                        </div>
+                                        <span
+                                            className="text-small text-text-gray hidden md:flex">{task.attributes.created_at.split("T")[0]}
+                            </span>
+                                    </div>
+
+                                </li>
+                            </summary>
+                            <div className="flex flex-col gap-2 bg-body-bg-hover p-4 rounded">
+                                <p className="text-small text-text-light">description:</p>
+                                <p className="text-small">{task.attributes.description}</p>
+                                <button
+                                    onClick={() => deleteTask(task.id)}
+                                >
+                    <span
+                        className="text-red-900 border-2 border-red-900 border-solid p-1 rounded-md">delete</span>
+                                </button>
+                            </div>
+                        </details>
+
+                    </div>
+
+
                 ))}
-            </ul>
+            </div>
+
+            <NewTaskModal
+                isOpen={isModalOpen}
+                onClose={() => setIsModalOpen(false)}
+                project_id={project_id}
+                onTaskAdded={handleTaskAdded}
+            />
         </>
     );
 };

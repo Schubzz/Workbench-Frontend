@@ -49,7 +49,6 @@ const ProjectsList = ({callback}) => {
 
     useEffect(() => {
         getProjects().then(({data}) => {
-            console.log(data)
             setProjects(data);
         });
     }, []);

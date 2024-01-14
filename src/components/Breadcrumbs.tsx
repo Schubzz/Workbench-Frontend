@@ -29,7 +29,6 @@ export default function Breadcrumbs() {
 
         async function fetchProject() {
             const response = await http.get(`/api/projects/${id}`);
-            console.log(response.data.data.attributes.title);
             const data = response;
             setTitle(response.data.data.attributes.title);
         }
