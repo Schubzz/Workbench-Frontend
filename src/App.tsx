@@ -1,6 +1,5 @@
 import {Route, Routes} from "react-router-dom";
 import {UserProvider} from "./context/contextUser.tsx";
-import {ProjectProvider} from "./context/ProjectContext.tsx";
 import Welcome from './pages/Welcome';
 import Register from './pages/Register';
 import Login from './pages/Login';

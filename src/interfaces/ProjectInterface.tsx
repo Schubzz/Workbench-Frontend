@@ -9,4 +9,6 @@ export default interface Project {
         created_at: string;
         updated_at: string;
     };
+
+    map(element: (project: Project) => JSX.Element): any;
 }

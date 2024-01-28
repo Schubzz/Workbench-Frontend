@@ -69,8 +69,6 @@ const ProjectDetail = () => {
             setProject(project);
             setTasks(tasks);
 
-            console.log(project)
-            console.log(tasks)
         });
     }, [tasks.length]);
 

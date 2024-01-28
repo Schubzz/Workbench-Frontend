@@ -26,11 +26,12 @@ const Projects = () => {
             <InfoBar
                 isVisible={isVisible}
                 activeProject={activeProject}
-                callback={ () => {
+                callback={() => {
                     setIsVisible(false)
                     setTimeout(() => {
                         setActiveProject(null)
-                    }, 500);
+                    }, 300)
+                    console.log('callback aus Infobar - Projects.tsx kackt rum')
 
                 }}
             />

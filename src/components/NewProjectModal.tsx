@@ -1,6 +1,8 @@
 import {useState} from "react"
 import useAxios from "../hooks/useAxios.tsx";
-import { useNavigate } from 'react-router-dom';
+import {useNavigate} from 'react-router-dom';
+import {MeatballMenu} from "./MeatballMenu.tsx";
+import PrioMeatball from "./MeatballMenus/PrioMeatball.tsx";
 
 
 export const NewProjectModal = ({isOpen, onClose}) => {
@@ -32,12 +34,13 @@ export const NewProjectModal = ({isOpen, onClose}) => {
     if (!isOpen) return null;
 
     return (
-        <div className="border-t-2 border-solid border-border">
+        <div
+            className="absolute top-[50%] left-[50%] translate-x-[-50%] w-[80%] md:w-[50%] rounded-xl bg-border border-t-2 border-solid border-border">
             <div className="p-2">
                 <form onSubmit={handleSubmit}
-                      className="flex items-center justify-between gap-2 p-2 rounded-md"
+                      className="flex items-center justify-between gap-2 p-2 rounded-md flex-col"
                 >
-                    <div className="flex">
+                    <div className="flex flex-col w-[100%] gap-y-4">
                         <input type="text"
                                value={title}
                                onChange={(e) => setTitle(e.target.value)}
@@ -53,7 +56,7 @@ export const NewProjectModal = ({isOpen, onClose}) => {
                         />
                     </div>
 
-                    <div className="flex">
+                    <div className="flex self-start my-2">
                         <select value={priority}
                                 onChange={(e) => setPriority(e.target.value)}
                                 className="bg-body-bg-hover rounded-md p-2 text-small font-semibold text-text-light"
@@ -64,26 +67,32 @@ export const NewProjectModal = ({isOpen, onClose}) => {
                         </select>
                     </div>
 
-                    <button type="submit"
-                            className="hidden md:flex bg-accent rounded-md p-2 text-small font-semibold text-text-light"
-                    >
-                        create Project
-                    </button>
+                    {/*<MeatballMenu type={"prioMenu"} status={priority}>*/}
+                    {/*    <PrioMeatball/>*/}
+                    {/*</MeatballMenu>*/}
+
+                    {/*<MeatballMenu type={"statusMenu"} status={status}>*/}
+                    {/*    <PrioMeatball/>*/}
+                    {/*</MeatballMenu>*/}
+
+
+                    <div className="flex self-end">
+                        <button
+                            onClick={handleClose}
+                            className="text-small font-semibold text-text-light bg-border rounded-md p-2"
+                        >
+                            cancel
+                        </button>
+
+                        <button type="submit"
+                                className="bg-accent rounded-md p-2 text-small font-semibold text-text-light"
+                        >
+                            create Project
+                        </button>
+                    </div>
                 </form>
 
                 <div className="flex justify-end p-2 gap-2 md:justify-start">
-                    <button
-                        onClick={handleClose}
-                        className="text-small font-semibold text-text-light bg-border rounded-md p-2"
-                    >
-                        cancel
-                    </button>
-
-                    <button type="submit"
-                            className="md:hidden bg-accent rounded-md p-2 text-small font-semibold text-text-light"
-                    >
-                        create Project
-                    </button>
                 </div>
             </div>
         </div>

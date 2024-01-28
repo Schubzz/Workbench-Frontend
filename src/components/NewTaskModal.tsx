@@ -14,7 +14,7 @@ export const NewTaskModal = ({isOpen, onClose, project_id, onTaskAdded}) => {
         e.preventDefault();
         try {
             const response = await http.post('/api/tasks', {title, priority, description, project_id});
-            onTaskAdded(response.data.data); // Achten Sie darauf, dass dies das korrekte Task-Objekt ist
+            onTaskAdded(response.data.data);
             handleClose();
         } catch (error) {
             console.error('Fehler beim Erstellen des Tasks:', error);

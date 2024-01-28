@@ -2,7 +2,6 @@ import Topbar from "./Topbar.tsx";
 import Sidebar from "./Sidebar.tsx";
 import Backdrop from "./Backdrop.tsx";
 import Content from "./Content.tsx";
-import InfoBar from "./InfoBar.tsx";
 import React, {useState} from "react";
 
 interface LayoutProps {

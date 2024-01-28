@@ -1,7 +1,7 @@
-import { useState, useEffect, useRef} from 'react';
-import { useProject } from '../context/ProjectContext.tsx';
+import {useEffect, useRef} from 'react';
+import Project from "../interfaces/ProjectInterface.tsx";
 
-export default function InfoBar({activeProject, isVisible, callback}) {
+export default function InfoBar({activeProject, isVisible, callback} : {activeProject: Project, isVisible: boolean, callback: () => void}) {
 
     const infoBarRef = useRef(null);
 
@@ -24,6 +24,15 @@ export default function InfoBar({activeProject, isVisible, callback}) {
             document.removeEventListener('mousedown', handleClickOutside);
         };
     }, [activeProject]);
+
+    useEffect(() => {
+        if (!isVisible) {
+            const timeoutId = setTimeout(() => {
+                callback(); // activeProject wird hier nicht zurückgesetzt, da die InfoBar geschlossen wird
+            }, 500);
+            return () => clearTimeout(timeoutId); // Timer löschen, wenn die Komponente entladen wird
+        }
+    }, [isVisible, callback]);
 
 
     const handleClose = () => {
