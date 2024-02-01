@@ -11,7 +11,7 @@ export default function InfoBar({activeProject, isVisible, callback} : {activePr
 
     useEffect(() => {
         function handleClickOutside(event) {
-            if (infoBarRef.current && !infoBarRef.current.contains(event.target) && !isClickInsideProjectSelector(event.target)) {
+            if (infoBarRef.current && !event.target.classList.contains("infobar-opener") && !infoBarRef.current.contains(event.target) && !isClickInsideProjectSelector(event.target)) {
                 handleClose();
             }
         }
