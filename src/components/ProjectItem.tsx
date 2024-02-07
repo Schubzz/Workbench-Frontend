@@ -34,6 +34,7 @@ const ProjectItem = ({callback}: { callback: (project: string) => void }) => {
         navigate(`/projects/${projectId}`)
     }
     const handleInfoButtonClick = (e: React.BaseSyntheticEvent, project: string) => {
+        e.preventDefault();
         e.stopPropagation();
         callback(project);
     };

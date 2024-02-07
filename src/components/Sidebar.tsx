@@ -2,11 +2,28 @@ import {UserContext} from "../context/contextUser.tsx";
 import {useContext} from "react";
 import NavLink from "./Navlink.tsx";
 import {BASE_URL} from "../baseURL.tsx";
+import {Link} from "react-router-dom";
+
+import settingsIcon from '../assets/icons/settings.svg';
+import logoutIcon from '../assets/icons/logout.svg';
+import dashboardIcon from '../assets/icons/dashboard.svg';
+import projectsIcon from '../assets/icons/projects.svg';
+import tasksIcon from '../assets/icons/tasks.svg';
+import statisticsIcon from '../assets/icons/statistics.svg';
+
 
 export default function Sidebar({onClose, isVisible}: { onClose: never, isVisible: boolean }) {
 
     const {user, logout} = useContext(UserContext);
 
+    const icons = {
+        dashboardIcon,
+        projectsIcon,
+        tasksIcon,
+        statisticsIcon,
+        settingsIcon,
+        logoutIcon,
+    };
 
     return (
         <aside id="sidebar"
@@ -21,7 +38,7 @@ export default function Sidebar({onClose, isVisible}: { onClose: never, isVisibl
 
                 {user && <img src={`${BASE_URL}${user?.profile_image}`}
                               alt="profile-img"
-                              className="w-[50px] h-[50px] border border-solid rounded-full border-border" />}
+                              className="w-[50px] h-[50px] border border-solid rounded-full border-border"/>}
                 <button id="close-btn"
                         onClick={onClose}
                         className="close-btn flex flex-col p-[.125rem] cursor-pointer lg:hidden">
@@ -32,38 +49,34 @@ export default function Sidebar({onClose, isVisible}: { onClose: never, isVisibl
 
             <ul id="navigation">
                 {[
-                    { name: 'Dashboard', path: '/dashboard' },
-                    { name: 'Projects', path: '/projects' },
-                    { name: 'Tasks', path: '/tasks' },
-                    { name: 'Statistics', path: '/statistics' }
+                    {name: 'Dashboard', path: '/dashboard', icon: 'dashboardIcon'},
+                    {name: 'Projects', path: '/projects', icon: 'projectsIcon'},
+                    {name: 'Tasks', path: '/tasks' , icon: 'tasksIcon'},
+                    {name: 'Statistics', path: '/statistics', icon: 'statisticsIcon'}
                 ].map((link, index) => (
                     <NavLink
                         key={index}
+                        linkIcon={icons[link.icon]}
                         linkText={link.name}
                         link={link.path}
-
                     />
                 ))}
             </ul>
 
             <ul id="bottom-nav" className="mt-auto">
                 <li className="text-small font-medium transition hover:bg-body-bg-hover">
-                    <a href="#" className="flex items-center justify-start h-full w-full gap-2 px-4 py-2">
-                        <div className="w-[20px] h-[20px] border custom-border-radius bg-accent">
-
-                        </div>
-                        <p>
-                            Settings
-                        </p>
-                    </a>
+                        <Link to={"/settings"} className="flex items-center justify-start h-full w-full gap-2 px-4 py-2">
+                            <img src={settingsIcon} alt="settings" className="w-6 h-6"/>
+                            <p>
+                                Settings
+                            </p>
+                        </Link>
                 </li>
                 <li className="text-small font-medium transition hover:bg-red-900">
                     <button
                         onClick={logout}
                         className="flex items-center justify-start h-full w-full gap-2 px-4 py-2">
-                        <div className="w-[20px] h-[20px] border custom-border-radius bg-accent">
-
-                        </div>
+                        <img src={logoutIcon} alt="settings" className="w-6 h-6"/>
                         <p>
                             Logout
                         </p>

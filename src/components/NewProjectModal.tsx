@@ -1,11 +1,9 @@
 import {useState} from "react"
 import useAxios from "../hooks/useAxios.tsx";
 import {useNavigate} from 'react-router-dom';
-import {MeatballMenu} from "./MeatballMenu.tsx";
-import PrioMeatball from "./MeatballMenus/PrioMeatball.tsx";
 
 
-export const NewProjectModal = ({isOpen, onClose}) => {
+export const NewProjectModal = ({isOpen, onClose} : {isOpen: () => void, onClose: () => void}) => {
 
     const http = useAxios();
     const navigate = useNavigate();
@@ -14,11 +12,12 @@ export const NewProjectModal = ({isOpen, onClose}) => {
     const [description, setDescription] = useState('');
     const [priority, setPriority] = useState('low');
 
-    const handleSubmit = async (e) => {
+    const handleSubmit = async (e: any) => {
         e.preventDefault();
         try {
             const response = await http.post('/api/projects', {title, priority, description});
             navigate(`/projects/${response.data.data.id}`);
+            console.log('Projekt erstellt:', response.data);
             handleClose();
         } catch (error) {
             console.error('Fehler beim Erstellen des Projekts:', error);

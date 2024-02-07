@@ -31,8 +31,6 @@ const Projects = () => {
                     setTimeout(() => {
                         setActiveProject(null)
                     }, 300)
-                    console.log('callback aus Infobar - Projects.tsx kackt rum')
-
                 }}
             />
         </>
