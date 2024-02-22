@@ -77,8 +77,8 @@ const ProjectDetail = () => {
         <>
             <div className="flex flex-col gap-2 bg-border p-4 rounded-md">
                 <h2 className="text-large">{project?.attributes.title}</h2>
-                <p className="text-small text-text-light">Project desc:</p>
-                <p>{project?.attributes.description}</p>
+                <p  className="text-small text-text-light">Project desc:</p>
+                <p> {project?.attributes.description}</p>
             </div>
 
 

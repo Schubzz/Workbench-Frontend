@@ -1,9 +1,11 @@
 import withLayout from "../HOC/withLayout.tsx";
 import ProjectsList from "../components/ProjectsList.tsx";
 import InfoBar from "../components/InfoBar.tsx";
-import {useEffect, useState} from "react";
+import { useEffect, useState} from "react";
 
-const Projects = () => {
+
+const Projects = ({user}) => {
+
 
     const [activeProject, setActiveProject] = useState(null);
     const [isVisible, setIsVisible] = useState(false);
@@ -14,6 +16,10 @@ const Projects = () => {
             setIsVisible(true); // Fährt die InfoBar aus
         }
     }, [activeProject]);
+
+    if (!user) {
+        return null;
+    }
 
     return (
         <>

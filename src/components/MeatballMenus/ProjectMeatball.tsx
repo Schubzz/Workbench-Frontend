@@ -1,13 +1,14 @@
-const ProjectMeatball = ({projectId}: any) => {
+import {useRef} from "react";
 
+
+const ProjectMeatball = ({projectId, callback}: { projectId: number, callback: any }) => {
+
+
+    const ref = useRef()
 
     const deleteProject = (projectId: string) => {
         return projectId;
     }
-
-    const patchProject = (projectId: string) => {
-        return projectId;
-    };
 
 
     const menuItems = [
@@ -15,15 +16,15 @@ const ProjectMeatball = ({projectId}: any) => {
             label: "Edit",
             icon: "✏️",
             action: () => {
-                patchProject(projectId)
-                console.log("PATCH request für Projekt", projectId);
+                callback("edit")
+                ref.current.parentNode.style.display = "none"
             },
         },
         {
             label: "Delete",
             icon: "🗑️",
             action: () => {
-                deleteProject(projectId);
+                deleteProject(projectId.toString());
                 console.log("DELETE request für Projekt", projectId);
             },
         },
@@ -31,7 +32,7 @@ const ProjectMeatball = ({projectId}: any) => {
 
 
     return (
-        <>
+        <div ref={ref}>
             {menuItems.map((item, index) => (
                 <div key={index}>
                     <div
@@ -45,7 +46,7 @@ const ProjectMeatball = ({projectId}: any) => {
                     </div>
                 </div>
             ))}
-        </>
+        </div>
     )
 }
 

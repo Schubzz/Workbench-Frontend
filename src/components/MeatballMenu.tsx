@@ -24,11 +24,10 @@ export const MeatballMenu = ({ children, type, status = "none" } : {children: an
     };
 
     useEffect(() => {
-        const closeMenu = (e: React.BaseSyntheticEvent) => {
-            // Überprüft, ob das Klick-Event außerhalb des Menücontainers stattfand
-            if (!e.target.closest('.meatball-menu-container')) {
-                setIsOpen(false); // Schließt das Menü
-            }
+        const closeMenu = () => {
+
+                setIsOpen(false);
+
         };
 
         // Fügt einen globalen Event-Listener hinzu

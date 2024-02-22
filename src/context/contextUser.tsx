@@ -3,7 +3,10 @@ import useAxios from "../hooks/useAxios.tsx";
 import {useNavigate} from "react-router-dom";
 
 export const UserContext = createContext({
-    user: {},
+    user: {
+        username: '',
+        email: '',
+    },
     setUser: () => {
     },
     logout: () => {

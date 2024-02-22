@@ -3,7 +3,7 @@ import useAxios from "../hooks/useAxios.tsx";
 import {useNavigate} from 'react-router-dom';
 
 
-export const NewProjectModal = ({isOpen, onClose} : {isOpen: () => void, onClose: () => void}) => {
+export const NewProjectModal = ({isOpen, onClose} : {isOpen: boolean, onClose: () => void}) => {
 
     const http = useAxios();
     const navigate = useNavigate();
@@ -17,7 +17,6 @@ export const NewProjectModal = ({isOpen, onClose} : {isOpen: () => void, onClose
         try {
             const response = await http.post('/api/projects', {title, priority, description});
             navigate(`/projects/${response.data.data.id}`);
-            console.log('Projekt erstellt:', response.data);
             handleClose();
         } catch (error) {
             console.error('Fehler beim Erstellen des Projekts:', error);

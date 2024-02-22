@@ -4,12 +4,14 @@ import useAxios from "../hooks/useAxios.tsx";
 import {useNavigate} from 'react-router-dom';
 import {UserContext} from "../context/contextUser.tsx";
 import axios from "axios";
+import {ProjectContext} from "../context/ProjectContext.tsx";
 
 
 export default function Login() {
 
     const http = useAxios();
     const navigate = useNavigate();
+
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -20,6 +22,7 @@ export default function Login() {
     const [loginError, setLoginError] = useState(false);
 
     const {getUser} = useContext(UserContext);
+    const {getProjects} = useContext(ProjectContext);
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -57,6 +60,7 @@ export default function Login() {
 
             if (response.status === 200) {
                 getUser();
+                getProjects();
                 navigate('/dashboard')
             } else {
                 setLoginError(true);
