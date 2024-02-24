@@ -1,6 +1,10 @@
-import {useState} from "react"
+import {BaseSyntheticEvent, useState} from "react"
 import useAxios from "../hooks/useAxios.tsx";
 import {useNavigate} from 'react-router-dom';
+import {ProjectContext} from "../context/ProjectContext.tsx";
+import {useContext} from "react";
+import Project from "../interfaces/ProjectInterface.tsx";
+
 
 
 export const NewProjectModal = ({isOpen, onClose} : {isOpen: boolean, onClose: () => void}) => {
@@ -8,15 +12,18 @@ export const NewProjectModal = ({isOpen, onClose} : {isOpen: boolean, onClose: (
     const http = useAxios();
     const navigate = useNavigate();
 
+    const {addProject} = useContext(ProjectContext);
+
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
     const [priority, setPriority] = useState('low');
 
-    const handleSubmit = async (e: any) => {
+    const handleSubmit = async (e: BaseSyntheticEvent) => {
         e.preventDefault();
         try {
-            const response = await http.post('/api/projects', {title, priority, description});
+            const response = await http.post('/api/projects', {title, priority, description, status: "To-Do"});
             navigate(`/projects/${response.data.data.id}`);
+            addProject( response.data.data);
             handleClose();
         } catch (error) {
             console.error('Fehler beim Erstellen des Projekts:', error);
@@ -65,14 +72,6 @@ export const NewProjectModal = ({isOpen, onClose} : {isOpen: boolean, onClose: (
                         </select>
                     </div>
 
-                    {/*<MeatballMenu type={"prioMenu"} status={priority}>*/}
-                    {/*    <PrioMeatball/>*/}
-                    {/*</MeatballMenu>*/}
-
-                    {/*<MeatballMenu type={"statusMenu"} status={status}>*/}
-                    {/*    <PrioMeatball/>*/}
-                    {/*</MeatballMenu>*/}
-
 
                     <div className="flex self-end">
                         <button
@@ -83,6 +82,7 @@ export const NewProjectModal = ({isOpen, onClose} : {isOpen: boolean, onClose: (
                         </button>
 
                         <button type="submit"
+                                autoFocus={true}
                                 className="bg-accent rounded-md p-2 text-small font-semibold text-text-light"
                         >
                             create Project

@@ -48,11 +48,11 @@ const ProjectDetail = () => {
         }
     }
 
-    const handleTaskAdded = (newTask) => {
+    const handleTaskAdded = (newTask: Task) => {
         setTasks(prevTasks => [...prevTasks, newTask]);
     };
 
-    const deleteTask = async (taskId : number) => {
+    const deleteTask = async (taskId : string) => {
         try {
             await http.delete(`/api/tasks/${taskId}`);
             setTasks(prevTasks => prevTasks.filter(task => task.id !== taskId));

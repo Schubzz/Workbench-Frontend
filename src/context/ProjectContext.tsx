@@ -3,13 +3,19 @@ import Project from "../interfaces/ProjectInterface.tsx";
 import useAxios from "../hooks/useAxios.tsx";
 
 
-
 export const ProjectContext = createContext({
     projects: [] as Project[],
-    getProjects : () => {},
+    getProjects: () => {
+    },
+    addProject: () => {
+    },
+    editProject: () => {
+    },
+    deleteProject: () => {
+    }
 });
 
-export const ProjectProvider = ({ children } : { children: any}) => {
+export const ProjectProvider = ({children}: { children: any }) => {
 
     const http = useAxios();
     const [projects, setProjects] = useState<Project[]>([]);
@@ -24,7 +30,25 @@ export const ProjectProvider = ({ children } : { children: any}) => {
         }
     };
 
+    function addProject(project: Project) {
+        console.log([...projects, project])
+        setProjects([...projects, project])
+    }
 
+    function editProject(project: Project) {
+        console.log([...projects, project])
+        setProjects([...projects, project])
+
+    }
+
+    const deleteProject = async (projectId : number) => {
+        try {
+            await http.delete(`/api/projects/${projectId}`);
+            setProjects(prevProjects => prevProjects.filter(project => project.id !== projectId));
+        } catch (error) {
+            console.error('Fehler beim Löschen des Tasks:', error);
+        }
+    };
 
 
     useEffect(() => {
@@ -33,7 +57,7 @@ export const ProjectProvider = ({ children } : { children: any}) => {
 
 
     return (
-        <ProjectContext.Provider value={{ projects, getProjects }}>
+        <ProjectContext.Provider value={{projects, getProjects, addProject, editProject, deleteProject}}>
             {children}
         </ProjectContext.Provider>
     );

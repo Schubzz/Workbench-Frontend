@@ -1,7 +1,6 @@
 import {BaseSyntheticEvent, useContext, useState} from "react"
 import useAxios from "../hooks/useAxios.tsx";
 import Project from "../interfaces/ProjectInterface.tsx";
-import {useNavigate} from "react-router-dom";
 import {ProjectContext} from "../context/ProjectContext.tsx";
 
 
@@ -15,7 +14,6 @@ export const EditProjectModal = ({isOpen, onClose, data}: {
 
 
     const http = useAxios();
-    const navigate = useNavigate();
     const [title, setTitle] = useState(data.attributes.title);
     const [description, setDescription] = useState(data.attributes.description);
 
@@ -23,9 +21,8 @@ export const EditProjectModal = ({isOpen, onClose, data}: {
     const handleSubmit = async (e: BaseSyntheticEvent) => {
         e.preventDefault();
         try {
-            const response = await http.patch(`/api/projects/${data.id}`, {title, description});
+            await http.patch(`/api/projects/${data.id}`, {title, description});
             editProject();
-            navigate(`/projects/${response.data.data.id}`);
             handleClose();
         } catch (error) {
             console.error('Fehler beim bearbeiten des Projekts:', error);

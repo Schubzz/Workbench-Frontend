@@ -1,19 +1,14 @@
 import React, {useEffect, useState} from "react";
+import {Status} from "./Status.tsx";
+import {Priority} from "./Priority.tsx";
 
 
-const priorityImg = {
-    low: {src: "../../src/assets/PrioLow.svg", alt: "Low Priority"},
-    medium: {src: "../../src/assets/PrioMedium.svg", alt: "Medium Priority"},
-    high: {src: "../../src/assets/PrioHigh.svg", alt: "High Priority"}
-};
-
-const statusImg = {
-    "To-Do": {src: "../../src/assets/Open.svg", alt: "to do"},
-    "In Progress": {src: "../../src/assets/inProgress.svg", alt: "in progress"},
-    "Done": {src: "../../src/assets/Done.svg", alt: "done"}
-};
 
 export const MeatballMenu = ({ children, type, status = "none" } : {children: any, type: string, status?: string}) => {
+
+
+    const priorityImg = Priority;
+    const statusImg = Status;
 
     const [isOpen, setIsOpen] = useState(false);
 

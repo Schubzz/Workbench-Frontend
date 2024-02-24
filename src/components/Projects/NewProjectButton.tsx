@@ -3,7 +3,7 @@ const NewProjectButton = ({onClick} : {onClick: () => void}) => {
   return (
       <button
           onClick={onClick}
-          className="sticky"
+          className="sticky left-0 top-[15%]"
       >
           <img src={plus} alt="Add" className="w-8 h-8" />
       </button>

@@ -12,10 +12,6 @@ export default function Layout({children}: LayoutProps) {
 
     const [sidebarVisible, setSidebarVisible] = useState(false);
 
-    // const [infobarVisible, setInfobarVisible] = useState(true);
-    const [activeProject, setActiveProject] = useState(null);
-
-
     const toggleSidebar = () => {
         setSidebarVisible(!sidebarVisible);
         if (sidebarVisible) {

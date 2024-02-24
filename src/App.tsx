@@ -1,6 +1,6 @@
 import {Route, Routes} from "react-router-dom";
 import {UserProvider} from "./context/contextUser.tsx";
-import Welcome from './pages/Welcome';
+import AccesDenied from './pages/AccesDenied.tsx';
 import Register from './pages/Register';
 import Login from './pages/Login';
 import Dashboard from "./pages/Dashboard";
@@ -12,38 +12,44 @@ import {useContext} from "react";
 import {UserContext} from "./context/contextUser.tsx";
 import './App.css'
 import {ProjectProvider} from "./context/ProjectContext.tsx";
+import Statistics from "./pages/Statistics.tsx";
 
 const Routing = () => {
 
     const {user} = useContext(UserContext);
 
+
     return(
         <Routes>
             {/* Landing Page */}
-            <Route path="/" element={<Welcome/>}></Route>
+            <Route path="/" element={<Login/>}></Route>
             {/* Login Page */}
             <Route path="/login" element={<Login/>}></Route>
             {/* Register Page */}
             <Route path="/register" element={<Register/>}></Route>
             {/* Dashboard Page */}
             <Route path="/dashboard" element={
-                user? <Dashboard user = {user}/> : <Login/>
+                user? <Dashboard user = {user}/> : <AccesDenied/>
             }></Route>
             {/* Projects Page */}
             <Route path="/projects" element={
-                user? <Projects user = {user}/> : <Login/>
+                user? <Projects user = {user}/> : <AccesDenied/>
             }></Route>
             {/* Project Detail Page */}
             <Route path="/projects/:projectId" element={
-                user? <ProjectDetail user = {user}/> : <Login/>
+                user? <ProjectDetail user = {user}/> : <AccesDenied/>
             } />
             {/* Tasks Page */}
             <Route path="/tasks" element={
-                user? <Tasks user = {user}/> : <Login/>
+                user? <Tasks user = {user}/> : <AccesDenied/>
+            }></Route>
+            {/* Projects Page */}
+            <Route path="/statistics" element={
+                user? <Statistics user = {user}/> : <AccesDenied/>
             }></Route>
             {/* Task in Project Page */}
             <Route path="/settings" element={
-                user? <Settings user = {user}/> : <Login/>
+                user? <Settings user = {user}/> : <AccesDenied/>
             }></Route>
         </Routes>
     )

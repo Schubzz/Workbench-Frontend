@@ -1,4 +1,5 @@
-import {useRef} from "react";
+import {useContext, useRef} from "react";
+import {ProjectContext} from "../../context/ProjectContext.tsx";
 
 
 const ProjectMeatball = ({projectId, callback}: { projectId: number, callback: any }) => {
@@ -6,9 +7,9 @@ const ProjectMeatball = ({projectId, callback}: { projectId: number, callback: a
 
     const ref = useRef()
 
-    const deleteProject = (projectId: string) => {
-        return projectId;
-    }
+    const {deleteProject} = useContext(ProjectContext);
+
+
 
 
     const menuItems = [
@@ -24,7 +25,7 @@ const ProjectMeatball = ({projectId, callback}: { projectId: number, callback: a
             label: "Delete",
             icon: "🗑️",
             action: () => {
-                deleteProject(projectId.toString());
+                deleteProject(projectId);
                 console.log("DELETE request für Projekt", projectId);
             },
         },
