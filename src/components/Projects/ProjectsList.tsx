@@ -1,8 +1,8 @@
 import {useState} from "react";
 import {NewProjectModal} from "./NewProjectModal.tsx";
 import ProjectItem from "./ProjectItem.tsx";
-import NewProjectButton from "./Projects/NewProjectButton.tsx";
-import {ProjectContext} from "../context/ProjectContext.tsx";
+import NewProjectButton from "./NewProjectButton.tsx";
+import {ProjectContext} from "../../context/ProjectContext.tsx";
 import {useContext} from "react";
 
 

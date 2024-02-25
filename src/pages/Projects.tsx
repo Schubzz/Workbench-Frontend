@@ -1,7 +1,8 @@
 import withLayout from "../HOC/withLayout.tsx";
-import ProjectsList from "../components/ProjectsList.tsx";
-import InfoBar from "../components/InfoBar.tsx";
+import ProjectsList from "../components/Projects/ProjectsList.tsx";
+import InfoBar from "../components/Projects/InfoBar.tsx";
 import { useEffect, useState} from "react";
+import Project from "../interfaces/ProjectInterface.tsx";
 
 
 const Projects = ({user}) => {

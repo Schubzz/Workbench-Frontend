@@ -1,13 +1,11 @@
 import {BaseSyntheticEvent, useState} from "react"
-import useAxios from "../hooks/useAxios.tsx";
+import useAxios from "../../hooks/useAxios.tsx";
 import {useNavigate} from 'react-router-dom';
-import {ProjectContext} from "../context/ProjectContext.tsx";
+import {ProjectContext} from "../../context/ProjectContext.tsx";
 import {useContext} from "react";
-import Project from "../interfaces/ProjectInterface.tsx";
 
 
-
-export const NewProjectModal = ({isOpen, onClose} : {isOpen: boolean, onClose: () => void}) => {
+export const NewProjectModal = ({isOpen, onClose}: { isOpen: boolean, onClose: () => void }) => {
 
     const http = useAxios();
     const navigate = useNavigate();
@@ -22,8 +20,10 @@ export const NewProjectModal = ({isOpen, onClose} : {isOpen: boolean, onClose: (
         e.preventDefault();
         try {
             const response = await http.post('/api/projects', {title, priority, description, status: "To-Do"});
-            navigate(`/projects/${response.data.data.id}`);
-            addProject( response.data.data);
+            const project = response.data.data;
+            project.attributes.status = "To-Do";
+            navigate(`/projects/${project.id}`);
+            addProject(project);
             handleClose();
         } catch (error) {
             console.error('Fehler beim Erstellen des Projekts:', error);

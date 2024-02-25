@@ -1,6 +1,6 @@
 export default interface Project {
-    id: number;
-    user_id: number;
+    id: string;
+    user_id: string;
     attributes: {
         title: string;
         priority: string;

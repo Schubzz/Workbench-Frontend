@@ -2,7 +2,7 @@ import {useContext, useRef} from "react";
 import {ProjectContext} from "../../context/ProjectContext.tsx";
 
 
-const ProjectMeatball = ({projectId, callback}: { projectId: number, callback: any }) => {
+const ProjectMeatball = ({projectId, callback}: { projectId: string, callback: void }) => {
 
 
     const ref = useRef()
@@ -26,7 +26,6 @@ const ProjectMeatball = ({projectId, callback}: { projectId: number, callback: a
             icon: "🗑️",
             action: () => {
                 deleteProject(projectId);
-                console.log("DELETE request für Projekt", projectId);
             },
         },
     ];

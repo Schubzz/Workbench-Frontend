@@ -1,19 +1,19 @@
-import {UserContext} from "../context/contextUser.tsx";
+import {UserContext} from "../../context/contextUser.tsx";
 import {useContext} from "react";
 import NavLink from "./Navlink.tsx";
-import {BASE_URL} from "../baseURL.tsx";
+import {BASE_URL} from "../../baseURL.tsx";
 import {Link} from "react-router-dom";
 
-import dashboardIcon from "../assets/Icons/dashboard.svg";
-import projectsIcon from "../assets/Icons/projects.svg";
-import tasksIcon from "../assets/Icons/tasks.svg";
-import statisticsIcon from "../assets/Icons/statistics.svg";
-import settingsIcon from "../assets/Icons/settings.svg";
-import logoutIcon from "../assets/Icons/logout.svg";
+import dashboardIcon from "../../assets/Icons/dashboard.svg";
+import projectsIcon from "../../assets/Icons/projects.svg";
+import tasksIcon from "../../assets/Icons/tasks.svg";
+import statisticsIcon from "../../assets/Icons/statistics.svg";
+import settingsIcon from "../../assets/Icons/settings.svg";
+import logoutIcon from "../../assets/Icons/logout.svg";
 
 
 
-export default function Sidebar({onClose, isVisible}: { onClose: never, isVisible: boolean }) {
+export default function Sidebar({onClose, isVisible}: { onClose () : void, isVisible: boolean }) {
 
     const {user, logout} = useContext(UserContext);
 

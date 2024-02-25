@@ -7,11 +7,11 @@ export const ProjectContext = createContext({
     projects: [] as Project[],
     getProjects: () => {
     },
-    addProject: () => {
+    addProject: (project : Project) => {
     },
-    editProject: () => {
+    editProject: (project : Project) => {
     },
-    deleteProject: () => {
+    deleteProject: (projectId : string) => {
     }
 });
 
@@ -36,12 +36,13 @@ export const ProjectProvider = ({children}: { children: any }) => {
     }
 
     function editProject(project: Project) {
-        console.log([...projects, project])
-        setProjects([...projects, project])
-
+        const newArray = projects.map(item =>
+            item.id === project.id ? { ...item, ...project } : item
+        );
+        setProjects(newArray)
     }
 
-    const deleteProject = async (projectId : number) => {
+    const deleteProject = async (projectId : string) => {
         try {
             await http.delete(`/api/projects/${projectId}`);
             setProjects(prevProjects => prevProjects.filter(project => project.id !== projectId));

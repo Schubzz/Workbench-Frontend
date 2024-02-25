@@ -1,5 +1,5 @@
 import {ComponentType, ReactNode} from "react";
-import Layout from '../components/Layout';
+import Layout from '../components/Layout/Layout.tsx';
 
 interface WithLayoutProps {
     children?: ReactNode;

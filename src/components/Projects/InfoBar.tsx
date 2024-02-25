@@ -1,16 +1,16 @@
 import {useEffect, useRef} from 'react';
-import Project from "../interfaces/ProjectInterface.tsx";
+import Project from "../../interfaces/ProjectInterface.tsx";
 
 export default function InfoBar({activeProject, isVisible, callback} : {activeProject: Project, isVisible: boolean, callback: () => void}) {
 
     const infoBarRef = useRef(null);
 
-    function isClickInsideProjectSelector(element) {
+    function isClickInsideProjectSelector(element : any) {
         return element.closest('.project-selector');
     }
 
     useEffect(() => {
-        function handleClickOutside(event) {
+        function handleClickOutside(event : MouseEvent) {
             if (infoBarRef.current && !event.target.classList.contains("infobar-opener") && !infoBarRef.current.contains(event.target) && !isClickInsideProjectSelector(event.target)) {
                 handleClose();
             }
@@ -28,9 +28,9 @@ export default function InfoBar({activeProject, isVisible, callback} : {activePr
     useEffect(() => {
         if (!isVisible) {
             const timeoutId = setTimeout(() => {
-                callback(); // activeProject wird hier nicht zurückgesetzt, da die InfoBar geschlossen wird
+                callback();
             }, 500);
-            return () => clearTimeout(timeoutId); // Timer löschen, wenn die Komponente entladen wird
+            return () => clearTimeout(timeoutId);
         }
     }, [isVisible, callback]);
 

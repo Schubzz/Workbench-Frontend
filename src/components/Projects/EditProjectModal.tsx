@@ -1,11 +1,11 @@
 import {BaseSyntheticEvent, useContext, useState} from "react"
-import useAxios from "../hooks/useAxios.tsx";
-import Project from "../interfaces/ProjectInterface.tsx";
-import {ProjectContext} from "../context/ProjectContext.tsx";
+import useAxios from "../../hooks/useAxios.tsx";
+import Project from "../../interfaces/ProjectInterface.tsx";
+import {ProjectContext} from "../../context/ProjectContext.tsx";
 
 
 export const EditProjectModal = ({isOpen, onClose, data}: {
-    isOpen: () => void,
+    isOpen: boolean,
     onClose: () => void,
     data: Project
 }) => {
@@ -21,8 +21,8 @@ export const EditProjectModal = ({isOpen, onClose, data}: {
     const handleSubmit = async (e: BaseSyntheticEvent) => {
         e.preventDefault();
         try {
-            await http.patch(`/api/projects/${data.id}`, {title, description});
-            editProject();
+            const result = await http.patch(`/api/projects/${data.id}`, {title, description});
+            editProject(result.data.data);
             handleClose();
         } catch (error) {
             console.error('Fehler beim bearbeiten des Projekts:', error);

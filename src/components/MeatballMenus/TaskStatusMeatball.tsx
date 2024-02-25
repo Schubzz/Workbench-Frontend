@@ -1,48 +1,56 @@
 import toDo from "../../assets/Open.svg";
 import inProgress from "../../assets/inProgress.svg";
 import done from "../../assets/Done.svg";
-import Project from "../../interfaces/ProjectInterface.tsx";
+import Task from "../../interfaces/TaskInterface.tsx";
 import useAxios from "../../hooks/useAxios.tsx";
-import {ProjectContext} from "../../context/ProjectContext.tsx";
-import {useContext} from "react";
+import {useState} from "react";
 
-const StatusMeatball = ({project} : {project : Project}) => {
 
+const TaskStatusMeatball = ({ task }: { task: Task }) => {
     const http = useAxios();
-    const {editProject} = useContext(ProjectContext);
+
+
+    const [tasks, setTasks] = useState<Task[]>([]);
+
+    function editTask(task: Task) {
+        const newArray = tasks.map(item =>
+            item.id === task.id ? { ...item, ...task } : item
+        );
+        setTasks(newArray)
+    }
 
     const editStatus = async (status: string) => {
         try {
-            const response = await http.patch(`/api/projects/${project.id}`, {status});
-            console.log(response)
-            editProject(response.data.data);
+            const response = await http.patch(`/api/tasks/${task.id}`, { status });
+            console.log(response);
+            editTask(response.data.data);
         } catch (error) {
-            console.error('Fehler beim bearbeiten des Projekts:', error);
+            console.error("Fehler beim Bearbeiten des Tasks:", error);
         }
-    }
+    };
 
     const statusItems = [
         {
-            label: "To Do",
-            icon: <img src={toDo} alt="to-do" className="w-4 h-4"/>,
+            label: "To-Do",
+            icon: <img src={toDo} alt="to-do" className="w-4 h-4" />,
             action: () => {
-                editStatus("To-Do")
-            }
+                editStatus("To-Do");
+            },
         },
         {
             label: "In Progress",
-            icon: <img src={inProgress} alt="in progress" className="w-4 h-4"/>,
+            icon: <img src={inProgress} alt="in progress" className="w-4 h-4" />,
             action: () => {
-                editStatus("In Progress")
-            }
+                editStatus("In Progress");
+            },
         },
         {
             label: "Done",
-            icon: <img src={done} alt="done" className="w-4 h-4"/>,
+            icon: <img src={done} alt="done" className="w-4 h-4" />,
             action: () => {
-                editStatus("Done")
-            }
-        }
+                editStatus("Done");
+            },
+        },
     ];
 
     return (
@@ -54,14 +62,15 @@ const StatusMeatball = ({project} : {project : Project}) => {
                         onClick={(e) => {
                             e.stopPropagation();
                             item.action();
-                        }}>
+                        }}
+                    >
                         <span className="">{item.icon}</span>
                         {item.label}
                     </div>
                 </div>
             ))}
         </>
-    )
-}
+    );
+};
 
-export default StatusMeatball
+export default TaskStatusMeatball;

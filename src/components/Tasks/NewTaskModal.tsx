@@ -1,5 +1,5 @@
 import {useState} from "react"
-import useAxios from "../hooks/useAxios.tsx";
+import useAxios from "../../hooks/useAxios.tsx";
 
 
 export const NewTaskModal = ({isOpen, onClose, project_id, onTaskAdded}) => {

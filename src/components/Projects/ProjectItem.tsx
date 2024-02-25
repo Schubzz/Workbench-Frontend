@@ -1,15 +1,15 @@
 import React, {useState} from "react";
-import Project from "../interfaces/ProjectInterface.tsx";
-import {MeatballMenu} from "./MeatballMenu.tsx";
-import ProjectMeatball from "./MeatballMenus/ProjectMeatball.tsx";
-import StatusMeatball from "./MeatballMenus/StatusMeatball.tsx";
-import InfoButton from "./Projects/InfoButton.tsx";
-import PrioMeatball from "./MeatballMenus/PrioMeatball.tsx";
+import Project from "../../interfaces/ProjectInterface.tsx";
+import {MeatballMenu} from "../MeatballMenus/MeatballMenu.tsx";
+import ProjectMeatball from "../MeatballMenus/ProjectMeatball.tsx";
+import StatusMeatball from "../MeatballMenus/StatusMeatball.tsx";
+import InfoButton from "./InfoButton.tsx";
+import PrioMeatball from "../MeatballMenus/PrioMeatball.tsx";
 import {useNavigate} from "react-router-dom";
 import {EditProjectModal} from "./EditProjectModal.tsx";
 
 
-const ProjectItem = ({callback, project} : { callback: (project: string) => void , project: Project}) => {
+const ProjectItem = ({callback, project} : { callback: () => void , project: Project}) => {
 
     const navigate = useNavigate();
 
@@ -42,7 +42,9 @@ const ProjectItem = ({callback, project} : { callback: (project: string) => void
                         </MeatballMenu>
                         {/* Status */}
                         <MeatballMenu type="statusMenu" status={project.attributes.status}>
-                            <StatusMeatball/>
+                            <StatusMeatball
+                                project={project}
+                            />
                         </MeatballMenu>
 
                         <h2 className="text-small">{project.attributes.title}</h2>
@@ -57,7 +59,9 @@ const ProjectItem = ({callback, project} : { callback: (project: string) => void
                         <div>
                             {/* Priority */}
                             <MeatballMenu type="prioMenu" status={project.attributes.priority}>
-                                <PrioMeatball/>
+                                <PrioMeatball
+                                    project={project}
+                                />
                             </MeatballMenu>
                         </div>
                         <span

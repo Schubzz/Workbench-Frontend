@@ -1,6 +1,6 @@
 import {Link, useLocation} from "react-router-dom";
 import {useEffect, useState} from "react";
-import useAxios from "../hooks/useAxios.tsx";
+import useAxios from "../../hooks/useAxios.tsx";
 
 export default function Breadcrumbs() {
 
