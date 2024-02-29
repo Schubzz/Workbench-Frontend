@@ -1,8 +1,14 @@
-import {useState} from "react"
+import {BaseSyntheticEvent, useState} from "react"
 import useAxios from "../../hooks/useAxios.tsx";
+import Task from "../../interfaces/TaskInterface.tsx";
 
 
-export const NewTaskModal = ({isOpen, onClose, project_id, onTaskAdded}) => {
+export const NewTaskModal = ({isOpen, onClose, project_id, setTasks}: {
+    isOpen : boolean,
+    onClose : () => void,
+    project_id : string,
+    setTasks :  React.Dispatch<React.SetStateAction<Task[]>>;
+}) => {
 
     const http = useAxios();
 
@@ -10,11 +16,11 @@ export const NewTaskModal = ({isOpen, onClose, project_id, onTaskAdded}) => {
     const [description, setDescription] = useState('');
     const [priority, setPriority] = useState('low');
 
-    const handleSubmit = async (e) => {
+    const handleSubmit = async (e: BaseSyntheticEvent) => {
         e.preventDefault();
         try {
             const response = await http.post('/api/tasks', {title, priority, description, project_id});
-            onTaskAdded(response.data.data);
+            setTasks(prevTasks => [...prevTasks, response.data.data]);
             handleClose();
         } catch (error) {
             console.error('Fehler beim Erstellen des Tasks:', error);
@@ -30,12 +36,13 @@ export const NewTaskModal = ({isOpen, onClose, project_id, onTaskAdded}) => {
     if (!isOpen) return null;
 
     return (
-        <div className="border-t-2 border-solid border-border">
+        <div
+            className="absolute top-[50%] left-[50%] translate-x-[-50%] w-[80%] md:w-[50%] rounded-xl bg-border border-t-2 border-solid border-border">
             <div className="p-2">
                 <form onSubmit={handleSubmit}
-                      className="flex items-center justify-between gap-2 p-2 rounded-md"
+                      className="flex flex-col items-center justify-between gap-2 p-2 rounded-md"
                 >
-                    <div className="flex">
+                    <div className="flex flex-col w-[100%] gap-y-4">
                         <input type="text"
                                value={title}
                                onChange={(e) => setTitle(e.target.value)}
@@ -51,7 +58,7 @@ export const NewTaskModal = ({isOpen, onClose, project_id, onTaskAdded}) => {
                         />
                     </div>
 
-                    <div className="flex">
+                    <div className="flex self-start my-2">
                         <select value={priority}
                                 onChange={(e) => setPriority(e.target.value)}
                                 className="bg-body-bg-hover rounded-md p-2 text-small font-semibold text-text-light"
@@ -62,18 +69,20 @@ export const NewTaskModal = ({isOpen, onClose, project_id, onTaskAdded}) => {
                         </select>
                     </div>
 
-                    <button
-                        onClick={handleClose}
-                        className="text-small font-semibold text-text-light bg-border rounded-md p-2"
-                    >
-                        cancel
-                    </button>
+                    <div className="flex self-end">
+                        <button
+                            onClick={handleClose}
+                            className="text-small font-semibold text-text-light bg-border rounded-md p-2"
+                        >
+                            cancel
+                        </button>
 
-                    <button type="submit"
-                            className=" bg-accent rounded-md p-2 text-small font-semibold text-text-light"
-                    >
-                        create Task
-                    </button>
+                        <button type="submit"
+                                className=" bg-accent rounded-md p-2 text-small font-semibold text-text-light"
+                        >
+                            create Task
+                        </button>
+                    </div>
                 </form>
 
                 <div className="flex justify-end p-2 gap-2 md:justify-start">

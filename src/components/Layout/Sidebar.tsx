@@ -1,13 +1,11 @@
 import {UserContext} from "../../context/contextUser.tsx";
 import {useContext} from "react";
 import NavLink from "./Navlink.tsx";
-import {BASE_URL} from "../../baseURL.tsx";
 import {Link} from "react-router-dom";
 
 import dashboardIcon from "../../assets/Icons/dashboard.svg";
 import projectsIcon from "../../assets/Icons/projects.svg";
 import tasksIcon from "../../assets/Icons/tasks.svg";
-import statisticsIcon from "../../assets/Icons/statistics.svg";
 import settingsIcon from "../../assets/Icons/settings.svg";
 import logoutIcon from "../../assets/Icons/logout.svg";
 
@@ -21,7 +19,6 @@ export default function Sidebar({onClose, isVisible}: { onClose () : void, isVis
         dashboardIcon,
         projectsIcon,
         tasksIcon,
-        statisticsIcon,
         settingsIcon,
         logoutIcon,
     };
@@ -38,7 +35,7 @@ export default function Sidebar({onClose, isVisible}: { onClose () : void, isVis
                     {user?.username}
                 </span>
 
-                {user && <img src={`${BASE_URL}${user?.profile_image}`}
+                {user && <img src={`${user?.profile_image}`}
                               alt="profile-img"
                               className="w-[50px] h-[50px] border border-solid rounded-full border-border"/>}
                 <button id="close-btn"
@@ -54,7 +51,6 @@ export default function Sidebar({onClose, isVisible}: { onClose () : void, isVis
                     {name: 'Dashboard', path: '/dashboard', icon: 'dashboardIcon'},
                     {name: 'Projects', path: '/projects', icon: 'projectsIcon'},
                     {name: 'Tasks', path: '/tasks' , icon: 'tasksIcon'},
-                    {name: 'Statistics', path: '/statistics', icon: 'statisticsIcon'}
                 ].map((link, index) => (
                     <NavLink
                         key={index}

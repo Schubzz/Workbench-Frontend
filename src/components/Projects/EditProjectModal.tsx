@@ -4,19 +4,13 @@ import Project from "../../interfaces/ProjectInterface.tsx";
 import {ProjectContext} from "../../context/ProjectContext.tsx";
 
 
-export const EditProjectModal = ({isOpen, onClose, data}: {
-    isOpen: boolean,
-    onClose: () => void,
-    data: Project
-}) => {
+export const EditProjectModal = ({isOpen, onClose, data}: { isOpen: boolean, onClose: () => void, data: Project }) => {
 
     const {editProject} = useContext(ProjectContext);
-
-
     const http = useAxios();
-    const [title, setTitle] = useState(data.attributes.title);
-    const [description, setDescription] = useState(data.attributes.description);
 
+    const [title, setTitle] = useState(data?.attributes.title || '');
+    const [description, setDescription] = useState(data?.attributes.description || '');
 
     const handleSubmit = async (e: BaseSyntheticEvent) => {
         e.preventDefault();

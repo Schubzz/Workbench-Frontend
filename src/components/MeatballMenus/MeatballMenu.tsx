@@ -2,7 +2,7 @@ import React, {useEffect, useRef, useState} from "react";
 import {Status} from "../Status.tsx";
 import {Priority} from "../Priority.tsx";
 
-export const MeatballMenu = ({children, type, status }: { children: any, type: string, status?: string }) => {
+export const MeatballMenu = ({children, type, status}: { children: any, type: string, status?: string }) => {
 
     const prioImg = Priority;
     const statusImg = Status;
@@ -50,7 +50,7 @@ export const MeatballMenu = ({children, type, status }: { children: any, type: s
                 <button onClick={toggleMenu} className="text-text-light hover:bg-body-bg rounded-md p-1">
                     {
                         (() => {
-                            const { src, alt } = statusImg[status ?? ""] || {};
+                            const {src, alt} = statusImg[status ?? ""] || {};
                             return src && <img src={src} alt={alt} className="w-4 h-4"/>;
                         })()
                     }
@@ -62,7 +62,7 @@ export const MeatballMenu = ({children, type, status }: { children: any, type: s
 
                     {
                         (() => {
-                            const {src, alt} = prioImg[ status ?? "" ] || {};
+                            const {src, alt} = prioImg[status ?? ""] || {};
                             return src && <img src={src} alt={alt} className="w-6 h-6"/>;
                         })()
                     }

@@ -1,16 +1,35 @@
-import {useContext, useRef} from "react";
+import {useContext, useRef, useState} from "react";
 import {ProjectContext} from "../../context/ProjectContext.tsx";
+import DeleteConfirmationModal from "../Projects/DeleteConfirm.tsx";
 
 
-const ProjectMeatball = ({projectId, callback}: { projectId: string, callback: void }) => {
+const ProjectMeatball = ({projectId, callback}: { projectId: string, callback: () => void }) => {
 
 
-    const ref = useRef()
+    const ref = useRef<HTMLDivElement>(null);
 
     const {deleteProject} = useContext(ProjectContext);
 
+    const project_id = projectId;
 
+    const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
+    const handleDeleteProject = async () => {
+        setIsDeleteModalOpen(true);
+    };
+
+    const handleConfirmDelete = async () => {
+        try {
+            deleteProject(project_id);
+            setIsDeleteModalOpen(false);
+        } catch (error) {
+            console.error("Error deleting project:", error);
+        }
+    };
+
+    const handleCancelDelete = () => {
+        setIsDeleteModalOpen(false);
+    };
 
     const menuItems = [
         {
@@ -18,34 +37,49 @@ const ProjectMeatball = ({projectId, callback}: { projectId: string, callback: v
             icon: "✏️",
             action: () => {
                 callback("edit")
-                ref.current.parentNode.style.display = "none"
+                if (ref.current) {
+                    const parentNode = ref.current.parentNode;
+                    if (parentNode) {
+                        parentNode.style.display = "none";
+                    }
+                }
             },
         },
         {
             label: "Delete",
             icon: "🗑️",
             action: () => {
-                deleteProject(projectId);
+                handleDeleteProject()
             },
         },
     ];
 
 
     return (
-        <div ref={ref}>
-            {menuItems.map((item, index) => (
-                <div key={index}>
-                    <div
-                        className="flex items-center justify-between text-small p-2 cursor-pointer hover:bg-body-bg-hover w-[10rem]"
-                        onClick={(e) => {
-                            e.stopPropagation();
-                            item.action();
-                        }}>
-                        {item.label}
-                        <span className="">{item.icon}</span>
+        <div>
+            <div ref={ref}>
+                {menuItems.map((item, index) => (
+                    <div key={index}>
+                        <div
+                            className="flex items-center justify-between text-small p-2 cursor-pointer hover:bg-body-bg-hover w-[10rem]"
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                item.action();
+                            }}>
+                            {item.label}
+                            <span className="">{item.icon}</span>
+                        </div>
                     </div>
-                </div>
-            ))}
+                ))}
+            </div>
+            <div>
+                {isDeleteModalOpen &&
+                    <DeleteConfirmationModal
+                        setIsDeleteModalOpen={setIsDeleteModalOpen}
+                        onCancel={() => setIsDeleteModalOpen(false)}
+                        project_id={project_id}
+                    />}
+            </div>
         </div>
     )
 }

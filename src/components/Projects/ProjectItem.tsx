@@ -27,27 +27,27 @@ const ProjectItem = ({callback, project} : { callback: () => void , project: Pro
 
     return (
         <div>
-            <div onClick={() => navigateToProject(project.id)}>
+            <div onClick={() => navigateToProject(project?.id)}>
                 <div
                     className="flex flex-row w-full justify-between items-center p-2 border border-b border-border hover:bg-body-bg-hover cursor-pointer rounded-md">
                     <div className="flex items-center gap-3">
                         {/* Edit & Delete */}
                         <MeatballMenu type="edit/delete">
                             <ProjectMeatball
-                                projectId={project.id}
+                                projectId={project?.id}
                                 callback={(key: string) => {
                                     if (key == "edit") setIsModalOpen(true)
                                 }}
                             />
                         </MeatballMenu>
                         {/* Status */}
-                        <MeatballMenu type="statusMenu" status={project.attributes.status}>
+                        <MeatballMenu type="statusMenu" status={project?.attributes.status}>
                             <StatusMeatball
                                 project={project}
                             />
                         </MeatballMenu>
 
-                        <h2 className="text-small">{project.attributes.title}</h2>
+                        <h2 className="text-small">{project?.attributes.title}</h2>
 
                         <InfoButton
                             onInfoClick={handleInfoButtonClick}
@@ -58,14 +58,14 @@ const ProjectItem = ({callback, project} : { callback: () => void , project: Pro
                     <div className="flex items-center gap-3">
                         <div>
                             {/* Priority */}
-                            <MeatballMenu type="prioMenu" status={project.attributes.priority}>
+                            <MeatballMenu type="prioMenu" status={project?.attributes.priority}>
                                 <PrioMeatball
                                     project={project}
                                 />
                             </MeatballMenu>
                         </div>
                         <span
-                            className="text-small text-text-gray hidden md:flex w-[5rem]">{project.attributes.created_at.split("T")[0]}
+                            className="text-small text-text-gray hidden md:flex w-[5rem]">{project?.attributes.created_at.split("T")[0]}
                             </span>
                     </div>
                 </div>

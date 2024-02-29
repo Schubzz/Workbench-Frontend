@@ -3,7 +3,7 @@ import Breadcrumbs from "./Breadcrumbs.tsx";
 export default function Topbar({onOpen}: { onOpen: any }) {
     return (
         <div id="topbar"
-             className="flex items-center sticky top-0 h-[80px] w-full p-6 gap-4 bg-body-bg border-b border-solid border-border">
+             className="flex items-center sticky top-0 h-[80px] w-full p-6 gap-4 bg-body-bg border-b border-solid border-border z-[100]">
 
             <div id="topbar-wrapper"
                  className="flex  items-center gap-8 py-4">

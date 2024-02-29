@@ -12,11 +12,14 @@ const ProjectsList = ({callback}: { callback: () => void }) => {
 
     const {projects} = useContext(ProjectContext);
 
+    const reversedProjects = [...projects].reverse();
+
+
     return (
         <>
             <NewProjectButton onClick={() => setIsModalOpen(true)}/>
 
-            {projects.map((project: any) => (
+            {reversedProjects.map((project: any) => (
                 <ProjectItem
                     key={project.id}
                     callback={callback}

@@ -11,7 +11,7 @@ export const ProjectContext = createContext({
     },
     editProject: (project : Project) => {
     },
-    deleteProject: (projectId : string) => {
+    deleteProject: async (projectId : string) => {
     }
 });
 

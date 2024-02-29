@@ -1,30 +1,43 @@
 import withLayout from "../HOC/withLayout.tsx";
 import useAxios from "../hooks/useAxios.tsx";
-import {useEffect, useState} from "react";
-import {useLocation} from "react-router-dom";
+import {BaseSyntheticEvent, useContext, useEffect, useState} from "react";
+import {useLocation, useNavigate} from "react-router-dom";
 import Project from "../interfaces/ProjectInterface.tsx";
 import Task from "../interfaces/TaskInterface.tsx";
 import {NewTaskModal} from "../components/Tasks/NewTaskModal.tsx";
 import TaskItem from "../components/Tasks/TaskItem.tsx";
-
+import {ProjectContext} from "../context/ProjectContext.tsx";
+import DeleteIcon from "../assets/Icons/DeleteIcon.tsx";
+import EditIcon from "../assets/Icons/EditIcon.tsx";
+import DeleteConfirmationModal from "../components/Projects/DeleteConfirm.tsx";
+import {EditProjectModal} from "../components/Projects/EditProjectModal.tsx";
+import ProjectDetails from "../1-ProjectDetail/ProjectDetails.tsx";
+import TaskList from "../1-ProjectDetail/TaskList.tsx";
+import ProjectActionsMenu from "../1-ProjectDetail/ProjectActionsMenu.tsx";
 
 const ProjectDetail = () => {
 
+    const [project, setProject] = useState<Project | null>(null);
     const [tasks, setTasks] = useState<Task[]>([]);
 
-    const [project, setProject] = useState<Project | null>(null);
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+    const [isEditModalOpen, setIsEditModalOpen] = useState(false);
 
     const http = useAxios();
-
     const location = useLocation();
-
+    const navigate = useNavigate();
     const resolvedPath = location.pathname.split("/").filter((item) => item !== "");
-
     const id = resolvedPath[1];
-
-    const [isModalOpen, setIsModalOpen] = useState(false);
-
     const project_id = id;
+
+    const handleDeleteProject = async ( project_id : string) => {
+        setIsDeleteModalOpen(true);
+    };
+
+    const handleCancelDelete = () => {
+        setIsDeleteModalOpen(false);
+    };
 
 
     const getProject = async () => {
@@ -37,13 +50,11 @@ const ProjectDetail = () => {
         }
     }
 
-    const handleTaskAdded = (newTask: Task) => {
-        setTasks(prevTasks => [...prevTasks, newTask]);
-    };
+    const handleTaskStatusChange  = async (status: string, taskId: string) => {
+        setTasks(prevTasks =>  prevTasks.map(task => task.id === taskId ? {...task, status} : task));
+    }
 
-    const handleTaskDeleted = (taskId: string) => {
-        setTasks(prevTasks => prevTasks.filter(task => task.id !== taskId));
-    };
+    const {deleteProject} = useContext(ProjectContext);
 
     useEffect(() => {
         getProject().then((data) => {
@@ -54,37 +65,34 @@ const ProjectDetail = () => {
         });
     }, [tasks.length]);
 
-
     return (
+        project === null ? 'project loading...' :
         <>
-            <div className="flex flex-col gap-2 bg-border p-4 rounded-md">
-                <h2 className="text-large">{project?.attributes.title}</h2>
-                <p  className="text-small text-text-light">Project desc:</p>
-                <p> {project?.attributes.description}</p>
+            <div className="flex justify-between gap-4 bg-border p-4 rounded-md">
+
+                <ProjectDetails
+                    project={project}
+                />
+
+                <ProjectActionsMenu
+                    onDeleteProject={() => handleDeleteProject(project_id)}
+                    onEditProject={() => setIsEditModalOpen(true)}
+                    project={project}
+                />
+
             </div>
 
-
-            <div className=" my-4">
-                <h2 className="mt-2 py-2 border-t-2 border-solid border-border">Tasks</h2>
-                <button
-                    onClick={() => setIsModalOpen(true)}
-                    className="bg-accent rounded-md p-2 text-small font-semibold text-text-light my-6"
-                >
-                    +
-                </button>
-                {tasks && tasks.map((task) => (
-                    <TaskItem key={task.id}
-                              task={ task }
-                              onDeleteTask={handleTaskDeleted}
-                    />
-                ))}
-            </div>
+            <TaskList
+                tasks={tasks}
+                onClick={() => setIsModalOpen(true)}
+                setTasks={setTasks}
+            />
 
             <NewTaskModal
                 isOpen={isModalOpen}
                 onClose={() => setIsModalOpen(false)}
                 project_id={project_id}
-                onTaskAdded={handleTaskAdded}
+                setTasks={setTasks}
             />
         </>
     );

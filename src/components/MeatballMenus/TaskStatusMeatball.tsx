@@ -3,25 +3,22 @@ import inProgress from "../../assets/inProgress.svg";
 import done from "../../assets/Done.svg";
 import Task from "../../interfaces/TaskInterface.tsx";
 import useAxios from "../../hooks/useAxios.tsx";
-import {useState} from "react";
 
 
-const TaskStatusMeatball = ({ task }: { task: Task }) => {
+const TaskStatusMeatball = ({task, setTasks}: {
+    task: Task,
+    setTasks: React.Dispatch<React.SetStateAction<Task[]>>
+}) => {
     const http = useAxios();
 
 
-    const [tasks, setTasks] = useState<Task[]>([]);
-
     function editTask(task: Task) {
-        const newArray = tasks.map(item =>
-            item.id === task.id ? { ...item, ...task } : item
-        );
-        setTasks(newArray)
+        setTasks((prevTasks) => prevTasks.map((item) => (item.id === task.id ? {...item, ...task} : item)));
     }
 
     const editStatus = async (status: string) => {
         try {
-            const response = await http.patch(`/api/tasks/${task.id}`, { status });
+            const response = await http.patch(`/api/tasks/${task.id}`, {status});
             console.log(response);
             editTask(response.data.data);
         } catch (error) {
@@ -32,21 +29,21 @@ const TaskStatusMeatball = ({ task }: { task: Task }) => {
     const statusItems = [
         {
             label: "To-Do",
-            icon: <img src={toDo} alt="to-do" className="w-4 h-4" />,
+            icon: <img src={toDo} alt="to-do" className="w-4 h-4"/>,
             action: () => {
                 editStatus("To-Do");
             },
         },
         {
             label: "In Progress",
-            icon: <img src={inProgress} alt="in progress" className="w-4 h-4" />,
+            icon: <img src={inProgress} alt="in progress" className="w-4 h-4"/>,
             action: () => {
                 editStatus("In Progress");
             },
         },
         {
             label: "Done",
-            icon: <img src={done} alt="done" className="w-4 h-4" />,
+            icon: <img src={done} alt="done" className="w-4 h-4"/>,
             action: () => {
                 editStatus("Done");
             },

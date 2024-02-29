@@ -3,9 +3,10 @@ import ProjectsList from "../components/Projects/ProjectsList.tsx";
 import InfoBar from "../components/Projects/InfoBar.tsx";
 import { useEffect, useState} from "react";
 import Project from "../interfaces/ProjectInterface.tsx";
+import User from "../interfaces/UserInterface.tsx";
 
 
-const Projects = ({user}) => {
+const Projects = ({user} : { user : User}) => {
 
 
     const [activeProject, setActiveProject] = useState(null);
@@ -26,7 +27,7 @@ const Projects = ({user}) => {
         <>
             <h2>Recent Projects</h2>
             <ProjectsList
-                callback={(project) => {
+                callback={(project : Project) => {
                     setActiveProject(project)
                 }}
             />

@@ -14,7 +14,6 @@ const StatusMeatball = ({project} : {project : Project}) => {
     const editStatus = async (status: string) => {
         try {
             const response = await http.patch(`/api/projects/${project.id}`, {status});
-            console.log(response)
             editProject(response.data.data);
         } catch (error) {
             console.error('Fehler beim bearbeiten des Projekts:', error);
@@ -48,7 +47,8 @@ const StatusMeatball = ({project} : {project : Project}) => {
     return (
         <>
             {statusItems.map((item, index) => (
-                <div key={index}>
+                <div key={index}
+                >
                     <div
                         className="flex items-center justify-start gap-x-2 text-small text-text-gray hover:text-text-light p-2 cursor-pointer hover:bg-body-bg-hover w-[8rem]"
                         onClick={(e) => {
