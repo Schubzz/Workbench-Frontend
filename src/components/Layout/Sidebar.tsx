@@ -26,7 +26,7 @@ export default function Sidebar({onClose, isVisible}: { onClose () : void, isVis
 
     return (
         <aside id="sidebar"
-               className={`grow-[1] basis-[200px] trans w-[250px] fixed left-[-250px] z-20 flex flex-col top-0  bg-body-bg border border-solid border-r border-border lg:sticky h-[100dvh] 
+               className={`z-[130] grow-[1] basis-[200px] trans w-[250px] fixed left-[-250px] flex flex-col top-0  bg-body-bg border border-solid border-r border-border lg:sticky h-[100dvh] 
                ${isVisible ? 'aside-visible' : ''}`}>
             <div id="info-head"
                  className="flex items-center justify-between h-[80px] p-5 border-b border-solid border-border">
