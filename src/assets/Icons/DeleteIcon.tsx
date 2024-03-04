@@ -1,4 +1,4 @@
-const DeleteIcon = ({color, size}: { color: string, size: string }) => {
+const DeleteIcon = ({color, size}: { color?: string, size?: string }) => {
     return (
         <svg xmlns="http://www.w3.org/2000/svg" height={size} viewBox="0 -960 960 960" width={size}>
             <path fill={color}

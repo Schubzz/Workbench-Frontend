@@ -4,7 +4,6 @@ import {useNavigate} from 'react-router-dom';
 import {ProjectContext} from "../../context/ProjectContext.tsx";
 import {useContext} from "react";
 
-
 export const NewProjectModal = ({isOpen, onClose}: { isOpen: boolean, onClose: () => void }) => {
 
     const http = useAxios();
@@ -29,6 +28,8 @@ export const NewProjectModal = ({isOpen, onClose}: { isOpen: boolean, onClose: (
             console.error('Fehler beim Erstellen des Projekts:', error);
         }
     };
+
+
 
     const handleClose = () => {
         setTitle('');
@@ -61,7 +62,8 @@ export const NewProjectModal = ({isOpen, onClose}: { isOpen: boolean, onClose: (
                         />
                     </div>
 
-                    <div className="flex self-start my-2">
+                    <div className="flex flex-col self-start my-2">
+                        <p className="text-small text-text-gray">PRIORITY: </p>
                         <select value={priority}
                                 onChange={(e) => setPriority(e.target.value)}
                                 className="bg-body-bg-hover rounded-md p-2 text-small font-semibold text-text-light"

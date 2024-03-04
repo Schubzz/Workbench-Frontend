@@ -6,7 +6,9 @@ import {ProjectContext} from "../../context/ProjectContext.tsx";
 import {useContext} from "react";
 
 
-const ProjectsList = ({callback}: { callback: () => void }) => {
+const ProjectsList = ({callback}: {
+    callback: () => void
+}) => {
 
     const [isModalOpen, setIsModalOpen] = useState(false);
 

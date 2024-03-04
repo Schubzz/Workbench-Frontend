@@ -12,7 +12,7 @@ export const ProjectContext = createContext({
     editProject: (project : Project) => {
     },
     deleteProject: async (projectId : string) => {
-    }
+    },
 });
 
 export const ProjectProvider = ({children}: { children: any }) => {
@@ -31,15 +31,12 @@ export const ProjectProvider = ({children}: { children: any }) => {
     };
 
     function addProject(project: Project) {
-        console.log([...projects, project])
         setProjects([...projects, project])
     }
 
-    function editProject(project: Project) {
-        const newArray = projects.map(item =>
-            item.id === project.id ? { ...item, ...project } : item
-        );
-        setProjects(newArray)
+    function editProject(updatedProject: Project) {
+        const updatedProjects = projects.map(project => (project.id === updatedProject.id ? updatedProject : project));
+        setProjects(updatedProjects);
     }
 
     const deleteProject = async (projectId : string) => {

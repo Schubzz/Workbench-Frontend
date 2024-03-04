@@ -3,25 +3,24 @@ import medium from "../../assets/PrioMedium.svg";
 import high from "../../assets/PrioHigh.svg";
 import Task from "../../interfaces/TaskInterface.tsx";
 import useAxios from "../../hooks/useAxios.tsx";
-import {useState} from "react";
+import React from "react";
 
-const TaskPriorityMeatball = ({ task }: { task: Task }) => {
-
+const TaskPriorityMeatball = ({task, setTasks}: {
+    task: Task,
+    setTasks: React.Dispatch<React.SetStateAction<Task[]>>
+}) => {
 
     const http = useAxios();
 
-    const [tasks, setTasks] = useState<Task[]>([]);
+    // const [tasks, setTasks] = useState<Task[]>([]);
 
     function editTask(task: Task) {
-        const newArray = tasks.map(item =>
-            item.id === task.id ? { ...item, ...task } : item
-        );
-        setTasks(newArray)
+        setTasks((prevTasks) => prevTasks.map((item) => (item.id === task.id ? {...item, ...task} : item)));
     }
 
     const editPriority = async (priority: string) => {
         try {
-            const response = await http.patch(`/api/tasks/${task.id}`, { priority });
+            const response = await http.patch(`/api/tasks/${task.id}`, {priority});
             console.log(response);
             editTask(response.data.data);
         } catch (error) {
@@ -32,21 +31,21 @@ const TaskPriorityMeatball = ({ task }: { task: Task }) => {
     const prioItems = [
         {
             label: "low",
-            icon: <img src={low} alt="low priority" className="w-4 h-4" />,
+            icon: <img src={low} alt="low priority" className="w-4 h-4"/>,
             action: () => {
                 editPriority("low");
             },
         },
         {
             label: "medium",
-            icon: <img src={medium} alt="medium priority" className="w-4 h-4" />,
+            icon: <img src={medium} alt="medium priority" className="w-4 h-4"/>,
             action: () => {
                 editPriority("medium");
             },
         },
         {
             label: "high",
-            icon: <img src={high} alt="high priority" className="w-4 h-4" />,
+            icon: <img src={high} alt="high priority" className="w-4 h-4"/>,
             action: () => {
                 editPriority("high");
             },

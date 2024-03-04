@@ -23,7 +23,6 @@ export default function InfoBar({activeProject, isVisible, callback}: {
         } catch (error) {
             console.error('Error fetching tasks:', error);
         }
-
     }
 
     const infoBarRef = useRef(null);
@@ -31,11 +30,15 @@ export default function InfoBar({activeProject, isVisible, callback}: {
     const priority = Priority;
     const status = Status;
 
-    const totalTasks = activeProject?.relationships.tasks.length;
-    const toDoTasks = activeProject?.relationships.tasks.filter((task: Task) => task?.attributes.status === "To-Do").length;
-    const inProgressTasks = activeProject?.relationships.tasks.filter((task: Task) => task?.attributes.status === "In Progress").length;
-    const doneTasks = activeProject?.relationships.tasks.filter((task: Task) => task?.attributes.status === "Done").length;
+    // const totalTasks = activeProject?.relationships.tasks.length;
+    // const toDoTasks = activeProject?.relationships.tasks.filter((task: Task) => task?.attributes.status === "To-Do").length;
+    // const inProgressTasks = activeProject?.relationships.tasks.filter((task: Task) => task?.attributes.status === "In Progress").length;
+    // const doneTasks = activeProject?.relationships.tasks.filter((task: Task) => task?.attributes.status === "Done").length;
 
+    const [totalTasks, setTotalTasks] = useState(activeProject?.relationships.tasks.length);
+    const [toDoTasks, setToDoTasks] = useState(activeProject?.relationships.tasks.filter((task: Task) => task?.attributes.status === "To-Do").length);
+    const [inProgressTasks, setInProgressTasks] = useState(activeProject?.relationships.tasks.filter((task: Task) => task?.attributes.status === "In Progress").length);
+    const [doneTasks, setDoneTasks] = useState(activeProject?.relationships.tasks.filter((task: Task) => task?.attributes.status === "Done").length);
 
     function isClickInsideProjectSelector(element: any) {
         return element.closest('.project-selector');
@@ -52,10 +55,18 @@ export default function InfoBar({activeProject, isVisible, callback}: {
             document.addEventListener('mousedown', handleClickOutside);
         }
 
+        setDoneTasks(activeProject?.relationships.tasks.filter((task: Task) => task?.attributes.status === "Done").length);
+        setInProgressTasks(activeProject?.relationships.tasks.filter((task: Task) => task?.attributes.status === "In Progress").length);
+        setToDoTasks(activeProject?.relationships.tasks.filter((task: Task) => task?.attributes.status === "To-Do").length);
+        setTotalTasks(activeProject?.relationships.tasks.length);
+
+        console.log(activeProject)
+
         return () => {
             document.removeEventListener('mousedown', handleClickOutside);
         };
     }, [activeProject]);
+
 
     useEffect(() => {
         if (!isVisible) {
@@ -71,6 +82,9 @@ export default function InfoBar({activeProject, isVisible, callback}: {
         callback();
     };
 
+    useEffect(() => {
+        tasksList()
+    }, []);
 
     return (
         <div ref={infoBarRef}

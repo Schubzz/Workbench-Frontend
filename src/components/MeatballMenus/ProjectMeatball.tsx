@@ -1,14 +1,12 @@
-import {useContext, useRef, useState} from "react";
-import {ProjectContext} from "../../context/ProjectContext.tsx";
-import DeleteConfirmationModal from "../Projects/DeleteConfirm.tsx";
+import {useRef, useState} from "react";
+import ProjectDeleteConfirmationModal from "../Projects/ProjectDeleteConfirm.tsx";
 
-
-const ProjectMeatball = ({projectId, callback}: { projectId: string, callback: () => void }) => {
-
+const ProjectMeatball = ({projectId, callback}: {
+    projectId: string,
+    callback: () => void
+}) => {
 
     const ref = useRef<HTMLDivElement>(null);
-
-    const {deleteProject} = useContext(ProjectContext);
 
     const project_id = projectId;
 
@@ -16,19 +14,6 @@ const ProjectMeatball = ({projectId, callback}: { projectId: string, callback: (
 
     const handleDeleteProject = async () => {
         setIsDeleteModalOpen(true);
-    };
-
-    const handleConfirmDelete = async () => {
-        try {
-            deleteProject(project_id);
-            setIsDeleteModalOpen(false);
-        } catch (error) {
-            console.error("Error deleting project:", error);
-        }
-    };
-
-    const handleCancelDelete = () => {
-        setIsDeleteModalOpen(false);
     };
 
     const menuItems = [
@@ -74,7 +59,7 @@ const ProjectMeatball = ({projectId, callback}: { projectId: string, callback: (
             </div>
             <div>
                 {isDeleteModalOpen &&
-                    <DeleteConfirmationModal
+                    <ProjectDeleteConfirmationModal
                         setIsDeleteModalOpen={setIsDeleteModalOpen}
                         onCancel={() => setIsDeleteModalOpen(false)}
                         project_id={project_id}

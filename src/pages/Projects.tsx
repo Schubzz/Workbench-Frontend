@@ -6,7 +6,9 @@ import Project from "../interfaces/ProjectInterface.tsx";
 import User from "../interfaces/UserInterface.tsx";
 
 
-const Projects = ({user} : { user : User}) => {
+const Projects = ({user} : {
+    user : User
+}) => {
 
 
     const [activeProject, setActiveProject] = useState(null);
@@ -15,7 +17,7 @@ const Projects = ({user} : { user : User}) => {
 
     useEffect(() => {
         if (activeProject) {
-            setIsVisible(true); // Fährt die InfoBar aus
+            setIsVisible(true);
         }
     }, [activeProject]);
 

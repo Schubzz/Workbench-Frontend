@@ -9,7 +9,10 @@ import {useNavigate} from "react-router-dom";
 import {EditProjectModal} from "./EditProjectModal.tsx";
 
 
-const ProjectItem = ({callback, project} : { callback: () => void , project: Project}) => {
+const ProjectItem = ({callback, project} : {
+    callback: () => void ,
+    project: Project
+}) => {
 
     const navigate = useNavigate();
 
@@ -35,8 +38,10 @@ const ProjectItem = ({callback, project} : { callback: () => void , project: Pro
                         <MeatballMenu type="edit/delete">
                             <ProjectMeatball
                                 projectId={project?.id}
-                                callback={(key: string) => {
-                                    if (key == "edit") setIsModalOpen(true)
+                                callback={(action) => {
+                                    if (action === "edit") {
+                                        setIsModalOpen(true)
+                                    }
                                 }}
                             />
                         </MeatballMenu>
@@ -74,7 +79,7 @@ const ProjectItem = ({callback, project} : { callback: () => void , project: Pro
             <EditProjectModal
                 isOpen={isModalOpen}
                 onClose={() => setIsModalOpen(false)}
-                data={project}
+                project={project}
             />
         </div>
     )

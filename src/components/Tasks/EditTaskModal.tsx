@@ -1,18 +1,16 @@
-import React, {BaseSyntheticEvent, useContext, useState} from "react"
+import React, {BaseSyntheticEvent, useState} from "react"
 import useAxios from "../../hooks/useAxios.tsx";
-import Project from "../../interfaces/ProjectInterface.tsx";
-import {ProjectContext} from "../../context/ProjectContext.tsx";
+import Task from "../../interfaces/TaskInterface.tsx";
 
 
 
-export const EditProjectModal = ({setIsEditModalOpen, onClose, data, callback}: {
+export const EditTaskModal = ({setIsEditModalOpen, onClose, data, setTasks}: {
     setIsEditModalOpen: React.Dispatch<React.SetStateAction<boolean>>,
     onClose: () => void,
-    data: Project,
-    callback: () => void
+    data: Task,
+    setTasks: React.Dispatch<React.SetStateAction<Task[]>>
 }) => {
 
-    const {editProject} = useContext(ProjectContext);
 
     const http = useAxios();
 
@@ -22,14 +20,13 @@ export const EditProjectModal = ({setIsEditModalOpen, onClose, data, callback}: 
     const handleSubmit = async (e: BaseSyntheticEvent) => {
         e.preventDefault();
         try {
-            const result = await http.patch(`/api/projects/${data.id}`, {title, description});
-            const updatedProject = result.data.data;
-            editProject(updatedProject);
-            callback(updatedProject);
-            console.log('Projekt erfolgreich bearbeitet:', updatedProject);
+            const result = await http.patch(`/api/tasks/${data.id}`, {title, description});
+            const updatedTask = result.data.data;
+            console.log(updatedTask)
+            setTasks(prevTasks => prevTasks.map(task => (task.id === updatedTask.id ? updatedTask : task)));
             handleClose();
         } catch (error) {
-            console.error('Fehler beim bearbeiten des Projekts:', error);
+            console.error(error);
         }
     };
 
@@ -75,9 +72,9 @@ export const EditProjectModal = ({setIsEditModalOpen, onClose, data, callback}: 
                         </button>
 
                         <button type="submit"
-                                className="bg-accent rounded-md p-2 font-semibold text-text-light text-small"
+                                className="text-white text-small px-2 py-1 rounded-md bg-accent"
                         >
-                            Edit
+                            Edit Task
                         </button>
                     </div>
                 </form>

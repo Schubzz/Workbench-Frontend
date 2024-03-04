@@ -17,8 +17,6 @@ const Routing = () => {
 
     const {user} = useContext(UserContext);
 
-    const legitUser = user.id !== '';
-
 
     return (
         <Routes>
@@ -39,27 +37,27 @@ const Routing = () => {
 
             {/* Dashboard Page */}
             <Route path="/dashboard" element= {
-                legitUser ? <Dashboard user={user}/> : <AccesDenied/>
+                user ? <Dashboard user={user}/> : <Login/>
             }></Route>
 
             {/* Projects Page */}
             <Route path="/projects" element= {
-                legitUser ? <Projects user={user}/> : <AccesDenied/>
+                user ? <Projects user={user}/> : <Login/>
             }></Route>
 
             {/* Project Detail Page */}
             <Route path="/projects/:projectId" element= {
-                legitUser ? <ProjectDetail user={user}/> : <AccesDenied/>
+                user ? <ProjectDetail user={user}/> : <Login/>
             }/>
 
             {/* Tasks Page */}
             <Route path="/tasks" element= {
-                legitUser ? <Tasks user={user}/> : <AccesDenied/>
+                user ? <Tasks user={user}/> : <Login/>
             }></Route>
 
             {/* Task in Project Page */}
             <Route path="/settings" element= {
-                legitUser ? <Settings user={user}/> : <AccesDenied/>
+                user ? <Settings user={user}/> : <Login/>
             }></Route>
         </Routes>
     )

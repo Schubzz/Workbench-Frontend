@@ -1,20 +1,25 @@
-import {BaseSyntheticEvent, useState} from "react"
+import {BaseSyntheticEvent, useContext, useState} from "react"
 import useAxios from "../../hooks/useAxios.tsx";
 import Task from "../../interfaces/TaskInterface.tsx";
+import {ProjectContext} from "../../context/ProjectContext.tsx";
+import tasks from "../../pages/Tasks.tsx";
 
 
-export const NewTaskModal = ({isOpen, onClose, project_id, setTasks}: {
-    isOpen : boolean,
-    onClose : () => void,
-    project_id : string,
-    setTasks :  React.Dispatch<React.SetStateAction<Task[]>>;
+export const NewTaskModal = ({isOpen, onClose, project_id, setTasks, tasks}: {
+    isOpen: boolean,
+    onClose: () => void,
+    project_id: string,
+    setTasks: React.Dispatch<React.SetStateAction<Task[]>>;
+    tasks: Task[];
 }) => {
 
     const http = useAxios();
 
+
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
     const [priority, setPriority] = useState('low');
+
 
     const handleSubmit = async (e: BaseSyntheticEvent) => {
         e.preventDefault();
@@ -58,7 +63,8 @@ export const NewTaskModal = ({isOpen, onClose, project_id, setTasks}: {
                         />
                     </div>
 
-                    <div className="flex self-start my-2">
+                    <div className="flex flex-col self-start my-2">
+                        <p className="text-small text-text-gray">PRIORITY: </p>
                         <select value={priority}
                                 onChange={(e) => setPriority(e.target.value)}
                                 className="bg-body-bg-hover rounded-md p-2 text-small font-semibold text-text-light"

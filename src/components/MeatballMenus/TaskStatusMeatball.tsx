@@ -3,14 +3,15 @@ import inProgress from "../../assets/inProgress.svg";
 import done from "../../assets/Done.svg";
 import Task from "../../interfaces/TaskInterface.tsx";
 import useAxios from "../../hooks/useAxios.tsx";
+import React from "react";
 
 
 const TaskStatusMeatball = ({task, setTasks}: {
     task: Task,
     setTasks: React.Dispatch<React.SetStateAction<Task[]>>
 }) => {
-    const http = useAxios();
 
+    const http = useAxios();
 
     function editTask(task: Task) {
         setTasks((prevTasks) => prevTasks.map((item) => (item.id === task.id ? {...item, ...task} : item)));
@@ -19,7 +20,6 @@ const TaskStatusMeatball = ({task, setTasks}: {
     const editStatus = async (status: string) => {
         try {
             const response = await http.patch(`/api/tasks/${task.id}`, {status});
-            console.log(response);
             editTask(response.data.data);
         } catch (error) {
             console.error("Fehler beim Bearbeiten des Tasks:", error);

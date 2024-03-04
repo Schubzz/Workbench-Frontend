@@ -25,6 +25,16 @@ input {
   padding-left: .5rem ;
 }
 
+input::file-selector-button {
+  font-weight: bold;
+  color: #D9D9D9;
+  background-color: #191718;
+  padding: 0.5em;
+  border: 2px solid #191718;
+  border-radius: 3px;
+}
+
+
 .trans {
   transition: left .5s;
 }
